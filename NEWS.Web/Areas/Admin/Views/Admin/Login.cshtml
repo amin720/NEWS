@@ -1,0 +1,117 @@
+﻿@model NEWS.Web.Areas.Admin.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "صفحه ورود";
+    Layout = "~/Areas/Admin/Views/Shared/_LoginLayout.cshtml";
+}
+
+@section PluginStylePage
+{
+    <link href="~/Areas/Admin/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section StylePage
+{
+    <link href="~/Areas/Admin/assets/pages/css/login-5-rtl.min.css" rel="stylesheet" type="text/css" />
+}
+@section PluginScriptPage
+{
+    <script src="~/Areas/Admin/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+}
+@section ScriptPage
+{
+    <script src="~/Areas/Admin/assets/pages/scripts/login-5.min.js" type="text/javascript"></script>
+}
+
+<!-- BEGIN : LOGIN PAGE 5-2 -->
+<div class="user-login-5">
+    <div class="row bs-reset">
+        <div class="col-md-6 login-container bs-reset">
+            @*<img class="login-logo login-6" src="~/Areas/Admin/assets/pages/img/login/login-invert.png" />*@
+            <div class="login-content">
+                <h1>صفحه ورود به پنل ادمین</h1>
+                @*<p> Lorem ipsum dolor sit amet, coectetuer adipiscing elit sed diam nonummy et nibh euismod aliquam erat volutpat. Lorem ipsum dolor sit amet, coectetuer adipiscing. </p>*@
+                <form action="@Url.Action("Login", "Admin")" class="login-form" method="post">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                     
+                    <div class="alert alert-danger display-hide">
+                        <button class="close" data-close="alert"></button>
+                        <span>نام کاربری و کلمه عبور خود را وارد کنید </span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input class="form-control form-control-solid placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="نام کاربری" name="UserName" required />
+                        </div>
+                        <div class="col-xs-6">
+                            <input class="form-control form-control-solid placeholder-no-fix form-group" type="password" autocomplete="off" placeholder="کلمه عبور" name="Password" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="rememberme mt-checkbox mt-checkbox-outline">
+                                <input type="checkbox" name="Remmeberme" value="1" /> مرا به خاطر بسپار
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-8 text-right">
+                            @*<div class="forgot-password">
+                    <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                </div>*@
+                            <button class="btn blue" type="submit">ورود</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- BEGIN FORGOT PASSWORD FORM -->
+                <form class="forget-form" action="javascript:;" method="post">
+                    <h3>Forgot Password ?</h3>
+                    <p> Enter your e-mail address below to reset your password. </p>
+                    <div class="form-group">
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="پست الکترونیکی" name="email" />
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="back-btn" class="btn blue btn-outline">برگشت</button>
+                        <button type="submit" class="btn blue uppercase pull-right">ارسال</button>
+                    </div>
+                </form>
+                <!-- END FORGOT PASSWORD FORM -->
+            </div>
+            <div class="login-footer">
+                <div class="row bs-reset">
+                    <div class="col-xs-5 bs-reset">
+                        <ul class="login-social">
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-social-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-social-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-social-dribbble"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-7 bs-reset">
+                        <div class="login-copyright text-right">
+                            <p>کپی رایت &copy; نیلوفر صالحی 1397</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 bs-reset">
+            <div class="login-bg"> </div>
+        </div>
+    </div>
+</div>
+<!-- END : LOGIN PAGE 5-2 -->

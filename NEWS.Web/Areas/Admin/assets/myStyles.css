@@ -1,0 +1,16 @@
+﻿
+
+
+
+
+
+/*____________START Login____________*/
+
+.mt-checkbox > span:after {
+    right: -7px !important;
+    top: -2px !important;
+    width: 20px !important;
+    height: 10px !important;
+}
+
+/*____________END Login____________*/

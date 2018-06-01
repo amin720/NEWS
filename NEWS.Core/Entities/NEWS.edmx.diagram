@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dd619348096e45d58dc13824d125a38b" Name="Diagram1">
+        <EntityTypeShape EntityType="NEWSModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Category" Width="1.5" PointX="3.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Comment" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Gallery" Width="1.5" PointX="8.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Post" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Role" Width="1.5" PointX="3.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.Tag" Width="1.5" PointX="8.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.UserRole" Width="1.5" PointX="6" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NEWSModel.User" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="NEWSModel.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_Category_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_Post_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_Comment_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_Gallery_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_Post_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_dbo_UserRole_dbo_Roles_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.FK_dbo_UserRole_dbo_Users_IdentityUser_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="NEWSModel.PostTag" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
