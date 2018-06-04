@@ -103,6 +103,9 @@ namespace NEWS.Infrastructure.Repository
 					{
 						throw new AggregateException("مورد یافت نشد.");
 					}
+
+					db.Posts.Remove(existItem);
+					db.SaveChanges();
 				}
 				catch (Exception ex)
 				{

@@ -22,7 +22,10 @@ namespace NEWS.Infrastructure.Repository
 		{
 			using (var db = new NEWSEntities())
 			{
-				return db.Categories.OrderBy(d => d.Name).ToList();
+				return db.Categories
+									.Include(c=>c.Category1)
+									.OrderBy(d => d.Name)
+									.ToList();
 			}
 		}
 		public void Save(Category Instance)
@@ -96,6 +99,9 @@ namespace NEWS.Infrastructure.Repository
 					{
 						throw new AggregateException("مورد یافت نشد.");
 					}
+
+					db.Categories.Remove(existItem);
+					db.SaveChanges();
 				}
 				catch (Exception ex)
 				{
