@@ -112,12 +112,26 @@
                         </a>
                     </li>
                     <li class="nav-item ">
-                        <a href="@Url.Action("Index","Admin")" class="nav-link nav-toggle">
-                            <i class="icon-home"></i>
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <i class="icon-user"></i>
                             <span class="title">کاربران</span>
                             <span class="selected"></span>
                             <span class="arrow open"></span>
                         </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item ">
+                                <a href="@Url.Action("UserList","User")" class="nav-link ">
+                                    <i class="icon-users"></i>
+                                    <span class="title">لیس کاربران</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a href="@Url.Action("Create", "User")" class="nav-link ">
+                                    <i class="fa fa-user-plus"></i>
+                                    <span class="title">ایجاد کاربر</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 <!-- END SIDEBAR MENU -->
@@ -173,11 +187,14 @@
     <script src="~/Areas/Admin/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
     <!-- END THEME LAYOUT SCRIPTS -->
     <script>
-        $(document).ready(function () {
-            $('#clickmewow').click(function () {
+        $(document).ready(function() {
+            $('#clickmewow').click(function() {
                 $('#radio1003').attr('checked', 'checked');
             });
-        })
+        });
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
     </script>
 </body>
 </html>

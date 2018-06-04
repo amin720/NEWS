@@ -1,0 +1,33 @@
+﻿@model IEnumerable<NEWS.Core.Entities.Category>
+@{
+    ViewBag.Title = "دسته بندی ها";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section PluginStylePage
+{
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select-rtl.css" rel="stylesheet" />
+}
+
+@section StylePage
+{
+
+}
+@section PluginScriptPage
+{
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+}
+@section ScriptPage
+{
+    <script>
+        $('.selectpicker').selectpicker({
+            style: 'form-control input-circle-right',
+            //size: 6
+        });
+
+    </script>
+}
+

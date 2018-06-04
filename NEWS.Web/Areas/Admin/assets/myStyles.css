@@ -13,4 +13,15 @@
     height: 10px !important;
 }
 
+.md-checkbox label > .check {
+    top: 0px !important;
+    right: 0px !important;
+    width: 20px !important;
+    height: 10px !important;
+}
 /*____________END Login____________*/
+
+
+.bootstrap-select.btn-group .dropdown-toggle .caret {
+    left: -220px !important;
+}

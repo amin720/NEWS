@@ -3,7 +3,7 @@ namespace NEWS.Infrastructure.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initla : DbMigration
+    public partial class addprop : DbMigration
     {
         public override void Up()
         {
@@ -51,6 +51,7 @@ namespace NEWS.Infrastructure.Migrations
                         FirstName = c.String(),
                         LastName = c.String(),
                         Actived = c.Boolean(),
+                        ImageUrl = c.String(),
                         DateCreated = c.DateTime(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })

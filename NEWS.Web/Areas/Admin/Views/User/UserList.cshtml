@@ -19,6 +19,37 @@
     <script src="~/Areas/Admin/assets/layouts/layout2/scripts/demo.min.js" type="text/javascript"></script>
     <script src="~/Areas/Admin/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
     <script src="~/Areas/Admin/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
+    
+    <script>
+        function deleteUser(sender, e) {
+            debugger;
+
+            var usernameParam = sender.dataset.username;
+
+            $.ajax({
+                type: "POST",
+                url: '/User/Delete',
+                data: { username: usernameParam },
+                dataType: "json",
+                success: function (response) {
+                    debugger;
+                    $('.portlet-body').load(window.location.href + ".portlet-body");
+                    alert('کاربر حذف شد');
+
+                },
+                error: function (event, jqxhr, settings, thrownError) {
+                    debugger;
+                    //$('#invoice').load(window.location.href + " .portlet-body");
+                    //alert('کاربر حذف شد');
+
+                    //alert(settings);
+                    //alert(thrownError);
+                    alert("failed");
+                }
+            });
+        }
+    </script>
+
 }
 
 
@@ -28,7 +59,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class=" icon-layers font-green"></i>
-                    <span class="caption-subject font-green bold uppercase">Rounded</span>
+                    <span class="caption-subject font-green bold uppercase">لیست کاربران</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -43,7 +74,7 @@
                                     <div class="mt-card-avatar mt-overlay-1">
                                         @if (string.IsNullOrEmpty(item.ImageUrl))
                                         {
-                                            <img src="~/Areas/Admin/assets/pages/img/avatars/team5.jpg" />
+                                            <img src="~/Areas/Admin/assets/pages/img/avatars/unknown-user.png" />
                                         }
                                         else
                                         {
@@ -52,13 +83,13 @@
                                         <div class="mt-overlay">
                                             <ul class="mt-info">
                                                 <li>
-                                                    <a class="btn default btn-outline" href="javascript:;">
+                                                    <a class="btn default btn-outline" data-toggle="tooltip" title="ویرایش کاربر" href="@Url.Action("Edit","User",new{username = item.UserName})">
                                                         <i class="icon-magnifier"></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="btn default btn-outline" href="javascript:;">
-                                                        <i class="icon-link"></i>
+                                                    <a class="btn default btn-outline" data-toggle="tooltip" title="حذف کاربر" href="javascript:;" data-UserName ="@item.UserName" onclick="deleteUser(this,event)">
+                                                        <i class="icon-trash"></i>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -67,25 +98,6 @@
                                     <div class="mt-card-content">
                                         <h3 class="mt-card-name">@item.FirstName @item.LastName</h3>
                                         <p class="mt-card-desc font-grey-mint">@item.SelectedRole</p>
-                                        <div class="mt-card-social">
-                                            <ul>
-                                                <li>
-                                                    <a href="javascript:;">
-                                                        <i class="icon-social-facebook"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;">
-                                                        <i class="icon-social-twitter"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:;">
-                                                        <i class="icon-social-dribbble"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

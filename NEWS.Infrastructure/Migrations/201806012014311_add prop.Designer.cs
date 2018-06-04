@@ -7,13 +7,13 @@ namespace NEWS.Infrastructure.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class initla : IMigrationMetadata
+    public sealed partial class addprop : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initla));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addprop));
         
         string IMigrationMetadata.Id
         {
-            get { return "201805311042215_initla"; }
+            get { return "201806012014311_add prop"; }
         }
         
         string IMigrationMetadata.Source

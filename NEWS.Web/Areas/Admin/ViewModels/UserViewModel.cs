@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
@@ -16,7 +17,6 @@ namespace NEWS.Web.Areas.Admin.ViewModels
 		[Required]
 		public string Email { get; set; }
 
-		[Required]
 		[Display(Name = "Display Name")]
 		public string DisplayName { get; set; }
 
@@ -24,11 +24,17 @@ namespace NEWS.Web.Areas.Admin.ViewModels
 		public string CurrentPassword { get; set; }
 
 		[Display(Name = "New Password")]
-		[System.ComponentModel.DataAnnotations.Compare("ConfirmPassword", ErrorMessage = "The new password and confirmation password do not match")]
+		[System.ComponentModel.DataAnnotations.Compare("ConfirmPassword", ErrorMessage = "کلمه عبور جدید با کلمه عبور وارد شده تطابق ندارد !!!")]
 		public string NewPassword { get; set; }
 
 		[Display(Name = "Confirm Password")]
 		public string ConfirmPassword { get; set; }
+
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string ImageUrl { get; set; }
+		[DefaultValue(false)]
+		public bool Actived { get; set; }
 
 		[Display(Name = "Role")]
 		public string SelectedRole { get; set; }
@@ -46,13 +52,6 @@ namespace NEWS.Web.Areas.Admin.ViewModels
 			_roles.AddRange(roles.Select(r => r.Name));
 		}
 
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
-		public string NationalCode { get; set; }
-		public string PhoneNumber { get; set; }
-
-		public string ImageUrl { get; set; }
-		public bool Actived { get; set; }
 
 	}
 }

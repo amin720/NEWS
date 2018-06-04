@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,14 +22,9 @@ namespace NEWS.Web.Areas.Admin.Controllers
 	    private readonly UserService _users;
 
 	    public UserController()
-			:this(new UserRepository(),new RoleRepository())
 	    {
-		    
-	    }
-	    public UserController(IUserRepository userRepository,IRoleRepository roleRepository)
-	    {
-		    _userRepository = userRepository;
-		    _roleRepository = roleRepository;
+		    _userRepository = new UserRepository();
+		    _roleRepository = new RoleRepository();
 		    _users = new UserService(ModelState, _userRepository, _roleRepository);
 	    }
 
@@ -81,8 +77,39 @@ namespace NEWS.Web.Areas.Admin.Controllers
 	    [HttpPost]
 	    [ValidateAntiForgeryToken]
 	    [Authorize(Roles = "admin")]
-	    public async Task<ActionResult> Create(UserViewModel model)
+	    public async Task<ActionResult> Create(UserViewModel model, HttpPostedFileBase image)
 	    {
+		    var user = await _userRepository.GetUserByNameAsync(model.UserName);
+
+		    if (user != null)
+		    {
+			    ModelState.AddModelError(string.Empty, "کاربر در حال حاضر در پنل کاربری حاضر است !");
+				return View(model: model);
+		    }
+
+		    var allowedExtensionsImages = new[] {
+			    ".Jpg", ".png", ".jpg", "jpeg"
+		    };
+		    if (image != null)
+		    {
+			    var fileName = Path.GetFileName(image.FileName);
+			    var ext = Path.GetExtension(image.FileName); //getting the extension(ex-.jpg)
+			    if (allowedExtensionsImages.Contains(ext)) //check what type of extension
+			    {
+				    string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
+				    string myfile = name + "_" + model.UserName + ext; //appending the name with id
+				    // store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
+				    var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/userAvatars/"), myfile);
+					model.ImageUrl = "~/Areas/Admin/assets/userAvatars/" + myfile;
+
+					image.SaveAs(path);
+			    }
+			    else
+			    {
+				    ModelState.AddModelError(string.Empty, "لطفا یک فایل با فرمت png و jpg و jpeg انتخاب کنید");
+			    }
+		    }
+
 		    var completed = await _users.CreateAsync(model);
 
 		    if (completed)
@@ -122,9 +149,40 @@ namespace NEWS.Web.Areas.Admin.Controllers
 	    [Route("Edit/{username}")]
 	    [ValidateAntiForgeryToken]
 	    [Authorize(Roles = "admin, editor, author")]
-	    public async Task<ActionResult> Edit(UserViewModel model, string username)
+	    public async Task<ActionResult> Edit(UserViewModel model, string username, HttpPostedFileBase image)
 	    {
-		    var currentUser = User.Identity.Name;
+		    var user = await _userRepository.GetUserByNameAsync(model.UserName);
+
+		    if (user == null)
+		    {
+			    ModelState.AddModelError(string.Empty, "کاربر مدنظر شما وجود ندارد.");
+				return View(model: model);
+		    }
+
+		    var allowedExtensionsImages = new[] {
+			    ".Jpg", ".png", ".jpg", "jpeg"
+		    };
+		    if (image != null)
+		    {
+			    var fileName = Path.GetFileName(image.FileName);
+			    var ext = Path.GetExtension(image.FileName); //getting the extension(ex-.jpg)
+			    if (allowedExtensionsImages.Contains(ext)) //check what type of extension
+			    {
+				    string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
+				    string myfile = name + "_" + model.UserName + ext; //appending the name with id
+				    // store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
+				    var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/userAvatars/"), myfile);
+				    model.ImageUrl = "~/Areas/Admin/assets/userAvatars/" + myfile;
+
+				    image.SaveAs(path);
+			    }
+			    else
+			    {
+				    ModelState.AddModelError(string.Empty, "لطفا یک فایل با فرمت png و jpg و jpeg انتخاب کنید");
+			    }
+		    }
+
+			var currentUser = User.Identity.Name;
 		    var isAdmin = User.IsInRole("admin");
 
 		    if (!isAdmin &&
@@ -139,7 +197,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		    {
 			    if (isAdmin)
 			    {
-				    return RedirectToAction("index");
+				    return RedirectToAction("UserList");
 			    }
 
 			    return RedirectToAction("index", "Admin");
@@ -152,12 +210,11 @@ namespace NEWS.Web.Areas.Admin.Controllers
 	    // product: Admin/User/Delete
 	    [HttpPost]
 	    [Route("Delete/{username}")]
-	    [ValidateAntiForgeryToken]
 	    [Authorize(Roles = "admin")]
-	    public async Task<ActionResult> Delete(string username)
+	    public async Task<JsonResult> Delete(string username)
 	    {
 		    await _users.DeleteAsync(username);
-		    return RedirectToAction("UserList", "User");
+		    return Json(RedirectToAction("UserList", "User"),JsonRequestBehavior.AllowGet);
 	    }
 
 		#region Method

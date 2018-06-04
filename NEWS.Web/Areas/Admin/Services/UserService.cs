@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NEWS.Core.Entities;
@@ -34,6 +35,10 @@ namespace NEWS.Web.Areas.Admin.Services
 				UserName = user.UserName,
 				Email = user.Email,
 				DisplayName = user.DisplayName,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				ImageUrl = user.ImageUrl,
+				Actived = user.Actived,
 			};
 
 			var userRoles = await _users.GetRolesForUserAsync(user);
@@ -48,10 +53,10 @@ namespace NEWS.Web.Areas.Admin.Services
 
 		public async Task<bool> CreateAsync(UserViewModel model)
 		{
-			if (!_modelState.IsValid)
-			{
-				return false;
-			}
+			//if (!_modelState.IsValid)
+			//{
+			//	return false;
+			//}
 
 			var existingUser = await _users.GetUserByNameAsync(model.UserName);
 
@@ -63,15 +68,20 @@ namespace NEWS.Web.Areas.Admin.Services
 
 			if (string.IsNullOrWhiteSpace(model.NewPassword))
 			{
-				_modelState.AddModelError(string.Empty, "You must type a password.");
+				_modelState.AddModelError(string.Empty, "شما باید یک کلمه عبور وارد کنید.");
 				return false;
 			}
 
 			var newUser = new UserIdentity()
 			{
-				DisplayName = model.DisplayName,
+				DisplayName = (string.IsNullOrWhiteSpace(model.DisplayName)?model.FirstName + " " + model.LastName:model.DisplayName),
 				Email = model.Email,
 				UserName = model.UserName,
+				ImageUrl = model.ImageUrl,
+				DateCreated = DateTime.Now,
+				Actived = model.Actived,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
 			};
 
 			await _users.CreateAsync(newUser, model.NewPassword);
@@ -87,14 +97,14 @@ namespace NEWS.Web.Areas.Admin.Services
 
 			if (user == null)
 			{
-				_modelState.AddModelError(string.Empty, "The specified user does not exist.");
+				_modelState.AddModelError(string.Empty, "کاربر مدنظر شما وجود ندارد.");
 				return false;
 			}
 
-			if (!_modelState.IsValid)
-			{
-				return false;
-			}
+			//if (!_modelState.IsValid)
+			//{
+			//	return false;
+			//}
 
 			if (!string.IsNullOrWhiteSpace(model.NewPassword))
 			{
@@ -119,6 +129,11 @@ namespace NEWS.Web.Areas.Admin.Services
 
 			user.Email = model.Email;
 			user.DisplayName = model.DisplayName;
+			user.FirstName = model.FirstName;
+			user.LastName = model.LastName;
+			user.Actived = model.Actived;
+			user.ImageUrl = model.ImageUrl;
+			user.UserName = model.UserName;
 
 			await _users.UpdateAsync(user);
 
