@@ -16,11 +16,19 @@ namespace NEWS.Infrastructure.Repository
 				return db.Tags.SingleOrDefault(d => d.ID == ID);
 			}
 		}
+		public Tag GetByName(string Name)
+		{
+			using (var db = new NEWSEntities())
+			{
+				return db.Tags.SingleOrDefault(t => t.Name == Name);
+			}
+		}
 		public IList<Tag> GetAll()
 		{
 			using (var db = new NEWSEntities())
 			{
-				return db.Tags.OrderBy(d => d.Name).ToList();
+				var result = db.Tags.SqlQuery("SELECT *\r\nFROM dbo.Tag\r\nORDER BY Name").ToList();
+				return result;
 			}
 		}
 		public void Save(Tag Instance)
@@ -117,12 +125,5 @@ namespace NEWS.Infrastructure.Repository
 			}
 		}
 
-		//public IEnumerable<Tag> GetTagsByPost(long postID)
-		//{
-		//	using (var db = new NEWSEntities())
-		//	{
-				
-		//	}
-		//}
 	}
 }

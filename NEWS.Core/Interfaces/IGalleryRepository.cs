@@ -17,6 +17,7 @@ namespace NEWS.Core.Interfaces
 		void Update(Gallery Instance);
 		void Delete(long ID);
 		IList<Gallery> GetPage(int pageNumber, int pageSize);
-		IEnumerable<Gallery> GetGallerysByPost(long postID);
+		IList<Gallery> GetGallerysByPostGallery(long? postGalleryID);
+		void SetGalleryToPost(long postGalleryID, IList<long> galleryID);
 	}
 }

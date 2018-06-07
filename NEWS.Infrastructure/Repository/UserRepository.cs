@@ -19,6 +19,10 @@ namespace NEWS.Infrastructure.Repository
 			_manager = new CmsUserManager(_store);
 		}
 
+		public async Task<UserIdentity> GetUserByIdAsync(string userId)
+		{
+			return await _store.FindByIdAsync(userId);
+		}
 		public async Task<UserIdentity> GetUserByNameAsync(string username)
 		{
 			return await _store.FindByNameAsync(username);

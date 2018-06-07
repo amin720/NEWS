@@ -88,6 +88,9 @@
     <Compile Include="Entities\Post.cs">
       <DependentUpon>NEWS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\PostGallery.cs">
+      <DependentUpon>NEWS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Role.cs">
       <DependentUpon>NEWS.tt</DependentUpon>
     </Compile>
@@ -104,6 +107,7 @@
     <Compile Include="Interfaces\ICommentRepository.cs" />
     <Compile Include="Interfaces\ICategoryRepository.cs" />
     <Compile Include="Interfaces\IGalleryRepository.cs" />
+    <Compile Include="Interfaces\IPostGalleryRepository.cs" />
     <Compile Include="Interfaces\ITagRepository.cs" />
     <Compile Include="Interfaces\IPostRepository.cs" />
     <Compile Include="Interfaces\IRoleRepository.cs" />

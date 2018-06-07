@@ -8,6 +8,7 @@ namespace NEWS.Core.Interfaces
 {
 	public interface IUserRepository : IDisposable
 	{
+		Task<UserIdentity> GetUserByIdAsync(string userId);
 		Task<UserIdentity> GetUserByNameAsync(string username);
 		Task<IEnumerable<UserIdentity>> GetAllUsersAsync();
 		Task CreateAsync(UserIdentity user, string password);

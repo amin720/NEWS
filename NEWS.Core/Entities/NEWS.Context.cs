@@ -31,6 +31,7 @@ namespace NEWS.Core.Entities
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Gallery> Galleries { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<PostGallery> PostGalleries { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }

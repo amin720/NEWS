@@ -18,7 +18,6 @@ namespace NEWS.Core.Entities
         public Post()
         {
             this.Comments = new HashSet<Comment>();
-            this.Galleries = new HashSet<Gallery>();
             this.Tags = new HashSet<Tag>();
         }
     
@@ -33,12 +32,12 @@ namespace NEWS.Core.Entities
         public Nullable<bool> IsGallery { get; set; }
         public string AuthorID { get; set; }
         public Nullable<long> CategoryID { get; set; }
+        public Nullable<long> PostGalleryID { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Gallery> Galleries { get; set; }
+        public virtual PostGallery PostGallery { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tag> Tags { get; set; }

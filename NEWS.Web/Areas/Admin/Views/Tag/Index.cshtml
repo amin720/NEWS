@@ -1,0 +1,197 @@
+﻿
+@{
+    ViewBag.Title = "تگ ها";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section PluginStylePage
+{
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select-rtl.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap-rtl.css" rel="stylesheet" type="text/css" />
+}
+
+@section StylePage
+{
+
+}
+@section PluginScriptPage
+{
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="~/Areas/Admin/assets/global/scripts/datatable.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
+}
+@section ScriptPage
+{
+    <script src="~/Areas/Admin/assets/pages/scripts/table-datatables-responsive.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $('.selectpicker').selectpicker({
+            style: 'form-control input-circle-right'
+            //size: 6
+        });
+
+
+        function bindTag(sender, e) {
+            //debugger;
+            var tag_ID = sender.dataset.tagid;
+            var tag_Name = sender.dataset.tagname;
+
+            $('#tag_ID').val(tag_ID);
+            $('#tag_Name').val(tag_Name);
+        };
+
+    </script>
+    <script type="text/javascript">
+        function deleteTag(sender, e) {
+            //debugger;
+
+            var tag = sender.dataset.tagid;
+
+            $.ajax({
+                type: "POST",
+                url: '/Tag/Delete',
+                data: { tagID: tag },
+                success: function (response) {
+                    //debugger;
+                    //$('#tag_list').load(window.location.href + "#tag_list");
+                    location.reload();
+                    alert('تگ مورد نظر حذف شد');
+
+                },
+                error: function (event, jqxhr, settings, thrownError) {
+                    //debugger;
+                    location.reload();
+
+                    //alert("failed");
+                }
+            });
+        };
+        function saveTag(sender, e) {
+            //debugger;
+
+            $.ajax({
+                type: "POST",
+                url: '/Tag/Save',
+                data: $('form').serialize(),
+                dataType: "json",
+                success: function (response) {
+                    debugger;
+                    //$('#tag_list').load(window.location.href + "#tag_list");
+                    $('form').find("input[type=text],input[type=hidden], textarea").val("");
+                    location.reload();
+                    alert('تغییرات لازم اعمال شد.');
+
+                },
+                error: function (event, jqxhr, settings, thrownError) {
+                    //debugger;
+                    location.reload();
+
+                    //alert("failed");
+                }
+            });
+        };
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="portlet light">
+
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-social-dropbox font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase"> ایجاد تگ</span>
+                </div>
+            </div>
+
+            <div class="portlet-body form">
+
+                <form id="tagForm">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-body">
+
+                        <input type="hidden" id="tag_ID" name="ID" value="" />
+
+                        <div class="form-group">
+                            <label>نام تگ</label>
+                            <div class="input-group">
+                                <span class="input-group-addon input-circle-left">
+                                    <i class="fa fa-tag"></i>
+                                </span>
+                                <input type="text" class="form-control input-circle-right" id="tag_Name" name="Name" placeholder="نام تگ">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-block green-soft" onclick="saveTag(this,event)">ثبت مشخصات</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-7" id="tag_list">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption font-red-sunglo">
+                    <i class="icon-settings font-red-sunglo"></i>
+                    <span class="caption-subject bold uppercase">تگ ها</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover dt-responsive" width="100%" id="table-list">
+                    <thead>
+                        <tr>
+                            <th>نام</th>
+
+                            <th class="all">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    <div class="btn-group pull-right">
+                                        <button class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown">
+                                            ابزار
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li>
+                                                <a href="javascript:;" data-TagID="@item.ID" onclick="deleteTag(this, event)">
+                                                    <i class="fa fa-trash-o"></i> حذف
+                                                </a>
+                                            </li>
+                                            <li class="text-center">
+                                                <a href="javascript:;"
+                                                   data-TagID="@item.ID"
+                                                   data-TagName="@item.Name"
+                                                   onclick="bindTag(this,event)">
+                                                    <i class="fa fa-edit"></i> ویرایش
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

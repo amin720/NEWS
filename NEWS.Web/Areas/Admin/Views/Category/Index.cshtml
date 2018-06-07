@@ -2,8 +2,6 @@
 @{
     ViewBag.Title = "دسته بندی ها";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-
-    var catgorySelected = 0;
 }
 
 @section PluginStylePage
@@ -201,7 +199,7 @@
                                                     <i class="fa fa-trash-o"></i> حذف
                                                 </a>
                                             </li>
-                                            <li>
+                                            <li class="text-center">
                                                 <a href="javascript:;"
                                                    data-CategoryID="@item.ID"
                                                    data-CategoryName="@item.Name"

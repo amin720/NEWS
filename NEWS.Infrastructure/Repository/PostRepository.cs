@@ -18,6 +18,16 @@ namespace NEWS.Infrastructure.Repository
 				return db.Posts.SingleOrDefault(d => d.ID == ID);
 			}
 		}
+
+		public Post GetByTitleDateAuthor(string Title, DateTime CreateDate, string AuthorID)
+		{
+			using (var db =new NEWSEntities())
+			{
+				return db.Posts.SingleOrDefault(p => p.Title == Title
+				                                  && p.CreateDate == CreateDate
+				                                  && p.AuthorID == AuthorID);
+			}
+		}
 		public IList<Post> GetAll()
 		{
 			using (var db = new NEWSEntities())
@@ -82,6 +92,7 @@ namespace NEWS.Infrastructure.Repository
 					existItem.IsGallery = Instance.IsGallery;
 					existItem.AuthorID = Instance.AuthorID;
 					existItem.CategoryID = Instance.CategoryID;
+					existItem.PostGalleryID = Instance.PostGalleryID;
 
 					db.SaveChanges();
 				}
@@ -111,6 +122,15 @@ namespace NEWS.Infrastructure.Repository
 				{
 					throw new AggregateException(ex);
 				}
+			}
+		}
+		public IList<string> GetTagsPost(long postID)
+		{
+			using (var db = new NEWSEntities())
+			{
+				var postTag = db.Posts.SqlQuery("SELECT *\r\nFROM dbo.PostTag\r\nWHERE PostID = {0}",postID);
+
+				return null;
 			}
 		}
 		public IList<Post> GetPage(int pageNumber, int pageSize)
@@ -163,7 +183,15 @@ namespace NEWS.Infrastructure.Repository
 								.ToArray();
 			}
 		}
+		public Post GetPostByPostGallery(long postgalleryID)
+		{
+			using (var db = new NEWSEntities())
+			{
+				var post = db.Posts.SingleOrDefault(pg => pg.PostGalleryID== postgalleryID);
 
+				return post;
+			}
+		}
 		public void SetTagToPost(long postID,long tagID)
 		{
 			using (var db = new NEWSEntities())

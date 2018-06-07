@@ -6,6 +6,7 @@ namespace NEWS.Core.Interfaces
 	public interface ITagRepository
 	{
 		Tag GetByID(long ID);
+		Tag GetByName(string Name);
 		IList<Tag> GetAll();
 		void Save(Tag Instance);
 		void Create(Tag Instance);

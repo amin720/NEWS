@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="NEWSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="NEWSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
@@ -55,7 +55,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="150" />
           <Property Name="Caption" Type="nvarchar(max)" />
           <Property Name="FileName" Type="nvarchar(max)" />
-          <Property Name="PostID" Type="bigint" Nullable="false" />
+          <Property Name="PostGalleryID" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -72,6 +72,14 @@
           <Property Name="IsGallery" Type="bit" />
           <Property Name="AuthorID" Type="nvarchar" MaxLength="128" />
           <Property Name="CategoryID" Type="bigint" />
+          <Property Name="PostGalleryID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PostGallery">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="PostTag">
           <Key>
@@ -202,15 +210,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Gallery_Post">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
+        <Association Name="FK_Gallery_PostGallery">
+          <End Role="PostGallery" Type="Self.PostGallery" Multiplicity="1" />
           <End Role="Gallery" Type="Self.Gallery" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Post">
+            <Principal Role="PostGallery">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Gallery">
-              <PropertyRef Name="PostID" />
+              <PropertyRef Name="PostGalleryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -223,6 +231,18 @@
             </Principal>
             <Dependent Role="Post">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_PostGallery">
+          <End Role="PostGallery" Type="Self.PostGallery" Multiplicity="0..1" />
+          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostGallery">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostGalleryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -269,6 +289,7 @@
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gallery" EntityType="Self.Gallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostGallery" EntityType="Self.PostGallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PostTag" EntityType="Self.PostTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
@@ -298,12 +319,16 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
-          <AssociationSet Name="FK_Gallery_Post" Association="Self.FK_Gallery_Post">
-            <End Role="Post" EntitySet="Post" />
+          <AssociationSet Name="FK_Gallery_PostGallery" Association="Self.FK_Gallery_PostGallery">
+            <End Role="PostGallery" EntitySet="PostGallery" />
             <End Role="Gallery" EntitySet="Gallery" />
           </AssociationSet>
           <AssociationSet Name="FK_Post_Category" Association="Self.FK_Post_Category">
             <End Role="Category" EntitySet="Category" />
+            <End Role="Post" EntitySet="Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_PostGallery" Association="Self.FK_Post_PostGallery">
+            <End Role="PostGallery" EntitySet="PostGallery" />
             <End Role="Post" EntitySet="Post" />
           </AssociationSet>
           <AssociationSet Name="FK_Post_Users" Association="Self.FK_Post_Users">
@@ -319,11 +344,67 @@
             <End Role="PostTag" EntitySet="PostTag" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="NEWSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="NEWSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserClaims" EntityType="NEWSModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="NEWSModel.AspNetUserLogin" />
+          <EntitySet Name="Categories" EntityType="NEWSModel.Category" />
+          <EntitySet Name="Comments" EntityType="NEWSModel.Comment" />
+          <EntitySet Name="Galleries" EntityType="NEWSModel.Gallery" />
+          <EntitySet Name="Posts" EntityType="NEWSModel.Post" />
+          <EntitySet Name="PostGalleries" EntityType="NEWSModel.PostGallery" />
+          <EntitySet Name="Roles" EntityType="NEWSModel.Role" />
+          <EntitySet Name="Tags" EntityType="NEWSModel.Tag" />
+          <EntitySet Name="UserRoles" EntityType="NEWSModel.UserRole" />
+          <EntitySet Name="Users" EntityType="NEWSModel.User" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" Association="NEWSModel.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" Association="NEWSModel.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Category_Category" Association="NEWSModel.FK_Category_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Category1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Category" Association="NEWSModel.FK_Post_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Post" Association="NEWSModel.FK_Comment_Post">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gallery_PostGallery" Association="NEWSModel.FK_Gallery_PostGallery">
+            <End Role="PostGallery" EntitySet="PostGalleries" />
+            <End Role="Gallery" EntitySet="Galleries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_PostGallery" Association="NEWSModel.FK_Post_PostGallery">
+            <End Role="PostGallery" EntitySet="PostGalleries" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Post_Users" Association="NEWSModel.FK_Post_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Post" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserRole_dbo_Roles_RoleId" Association="NEWSModel.FK_dbo_UserRole_dbo_Roles_RoleId">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserRole_dbo_Users_IdentityUser_Id" Association="NEWSModel.FK_dbo_UserRole_dbo_Users_IdentityUser_Id">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="PostTag" Association="NEWSModel.PostTag">
+            <End Role="Post" EntitySet="Posts" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
@@ -333,7 +414,7 @@
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" FromRole="AspNetUserClaims" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="NEWSModel.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" FromRole="AspNetUserClaim" ToRole="User" />
         </EntityType>
         <EntityType Name="AspNetUserLogin">
           <Key>
@@ -341,23 +422,23 @@
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" FromRole="AspNetUserLogins" ToRole="Users" />
+          <NavigationProperty Name="User" Relationship="NEWSModel.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" FromRole="AspNetUserLogin" ToRole="User" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ParentId" Type="Int64" />
           <Property Name="CategoryType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category1" Relationship="Self.FK_Category_Category" FromRole="Category" ToRole="Category1" />
-          <NavigationProperty Name="Category2" Relationship="Self.FK_Category_Category" FromRole="Category1" ToRole="Category" />
-          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Category" FromRole="Category" ToRole="Post" />
+          <NavigationProperty Name="Category1" Relationship="NEWSModel.FK_Category_Category" FromRole="Category" ToRole="Category1" />
+          <NavigationProperty Name="Category2" Relationship="NEWSModel.FK_Category_Category" FromRole="Category1" ToRole="Category" />
+          <NavigationProperty Name="Posts" Relationship="NEWSModel.FK_Post_Category" FromRole="Category" ToRole="Post" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -370,7 +451,7 @@
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Desciption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostID" Type="Int64" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_Comment_Post" FromRole="Comment" ToRole="Post" />
+          <NavigationProperty Name="Post" Relationship="NEWSModel.FK_Comment_Post" FromRole="Comment" ToRole="Post" />
         </EntityType>
         <EntityType Name="Gallery">
           <Key>
@@ -380,8 +461,8 @@
           <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PostID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Post" Relationship="Self.FK_Gallery_Post" FromRole="Gallery" ToRole="Post" />
+          <Property Name="PostGalleryID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PostGallery" Relationship="NEWSModel.FK_Gallery_PostGallery" FromRole="Gallery" ToRole="PostGallery" />
         </EntityType>
         <EntityType Name="Post">
           <Key>
@@ -398,19 +479,29 @@
           <Property Name="IsGallery" Type="Boolean" />
           <Property Name="AuthorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CategoryID" Type="Int64" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_Post_Category" FromRole="Post" ToRole="Category" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Post" FromRole="Post" ToRole="Comment" />
-          <NavigationProperty Name="Galleries" Relationship="Self.FK_Gallery_Post" FromRole="Post" ToRole="Gallery" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Post_Users" FromRole="Post" ToRole="Users" />
-          <NavigationProperty Name="Tags" Relationship="Self.PostTag" FromRole="Post" ToRole="Tag" />
+          <Property Name="PostGalleryID" Type="Int64" />
+          <NavigationProperty Name="Category" Relationship="NEWSModel.FK_Post_Category" FromRole="Post" ToRole="Category" />
+          <NavigationProperty Name="Comments" Relationship="NEWSModel.FK_Comment_Post" FromRole="Post" ToRole="Comment" />
+          <NavigationProperty Name="PostGallery" Relationship="NEWSModel.FK_Post_PostGallery" FromRole="Post" ToRole="PostGallery" />
+          <NavigationProperty Name="User" Relationship="NEWSModel.FK_Post_Users" FromRole="Post" ToRole="User" />
+          <NavigationProperty Name="Tags" Relationship="NEWSModel.PostTag" FromRole="Post" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="PostGallery">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Galleries" Relationship="NEWSModel.FK_Gallery_PostGallery" FromRole="PostGallery" ToRole="Gallery" />
+          <NavigationProperty Name="Posts" Relationship="NEWSModel.FK_Post_PostGallery" FromRole="PostGallery" ToRole="Post" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="UserRoles" Relationship="Self.FK_dbo_UserRole_dbo_Roles_RoleId" FromRole="Roles" ToRole="UserRole" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserRoles" Relationship="NEWSModel.FK_dbo_UserRole_dbo_Roles_RoleId" FromRole="Role" ToRole="UserRole" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -418,24 +509,24 @@
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Posts" Relationship="Self.PostTag" FromRole="Tag" ToRole="Post" />
+          <NavigationProperty Name="Posts" Relationship="NEWSModel.PostTag" FromRole="Tag" ToRole="Post" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RoleId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_dbo_UserRole_dbo_Roles_RoleId" FromRole="UserRole" ToRole="Roles" />
-          <NavigationProperty Name="User" Relationship="Self.FK_dbo_UserRole_dbo_Users_IdentityUser_Id" FromRole="UserRole" ToRole="Users" />
+          <NavigationProperty Name="Role" Relationship="NEWSModel.FK_dbo_UserRole_dbo_Roles_RoleId" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="NEWSModel.FK_dbo_UserRole_dbo_Users_IdentityUser_Id" FromRole="UserRole" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -453,39 +544,39 @@
           <Property Name="Actived" Type="Boolean" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" FromRole="Users" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" FromRole="Users" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="Posts" Relationship="Self.FK_Post_Users" FromRole="Users" ToRole="Post" />
-          <NavigationProperty Name="UserRoles" Relationship="Self.FK_dbo_UserRole_dbo_Users_IdentityUser_Id" FromRole="Users" ToRole="UserRole" />
+          <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="NEWSModel.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" FromRole="User" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="NEWSModel.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" FromRole="User" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="Posts" Relationship="NEWSModel.FK_Post_Users" FromRole="User" ToRole="Post" />
+          <NavigationProperty Name="UserRoles" Relationship="NEWSModel.FK_dbo_UserRole_dbo_Users_IdentityUser_Id" FromRole="User" ToRole="UserRole" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <End Type="NEWSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NEWSModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
+            <Dependent Role="AspNetUserClaim">
               <PropertyRef Name="IdentityUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <End Type="NEWSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NEWSModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserLogins">
+            <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="IdentityUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Category_Category">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Category1" Type="Self.Category" Multiplicity="*" />
+          <End Type="NEWSModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="NEWSModel.Category" Role="Category1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Category">
               <PropertyRef Name="ID" />
@@ -496,8 +587,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Post_Category">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <End Type="NEWSModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="NEWSModel.Post" Role="Post" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Category">
               <PropertyRef Name="ID" />
@@ -508,8 +599,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Comment_Post">
-          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
-          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <End Type="NEWSModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="NEWSModel.Comment" Role="Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Post">
               <PropertyRef Name="ID" />
@@ -519,23 +610,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Gallery_Post">
-          <End Role="Post" Type="Self.Post" Multiplicity="1" />
-          <End Role="Gallery" Type="Self.Gallery" Multiplicity="*" />
+        <Association Name="FK_Gallery_PostGallery">
+          <End Type="NEWSModel.PostGallery" Role="PostGallery" Multiplicity="1" />
+          <End Type="NEWSModel.Gallery" Role="Gallery" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Post">
+            <Principal Role="PostGallery">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Gallery">
-              <PropertyRef Name="PostID" />
+              <PropertyRef Name="PostGalleryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Post_PostGallery">
+          <End Type="NEWSModel.PostGallery" Role="PostGallery" Multiplicity="0..1" />
+          <End Type="NEWSModel.Post" Role="Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PostGallery">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Post">
+              <PropertyRef Name="PostGalleryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Post_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
+          <End Type="NEWSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NEWSModel.Post" Role="Post" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Post">
@@ -544,12 +647,12 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_UserRole_dbo_Roles_RoleId">
-          <End Role="Roles" Type="Self.Role" Multiplicity="1">
+          <End Type="NEWSModel.Role" Role="Role" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <End Type="NEWSModel.UserRole" Role="UserRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Roles">
+            <Principal Role="Role">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserRole">
@@ -558,10 +661,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_UserRole_dbo_Users_IdentityUser_Id">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <End Type="NEWSModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="NEWSModel.UserRole" Role="UserRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserRole">
@@ -570,62 +673,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="PostTag">
-          <End Role="Post" Type="Self.Post" Multiplicity="*" />
-          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+          <End Type="NEWSModel.Post" Role="Post" Multiplicity="*" />
+          <End Type="NEWSModel.Tag" Role="Tag" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="NEWSEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="Categories" EntityType="Self.Category" />
-          <EntitySet Name="Comments" EntityType="Self.Comment" />
-          <EntitySet Name="Galleries" EntityType="Self.Gallery" />
-          <EntitySet Name="Posts" EntityType="Self.Post" />
-          <EntitySet Name="Roles" EntityType="Self.Role" />
-          <EntitySet Name="Tags" EntityType="Self.Tag" />
-          <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" Association="Self.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Category1" EntitySet="Categories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Post_Category" Association="Self.FK_Post_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Post" EntitySet="Posts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comment_Post" Association="Self.FK_Comment_Post">
-            <End Role="Post" EntitySet="Posts" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Gallery_Post" Association="Self.FK_Gallery_Post">
-            <End Role="Post" EntitySet="Posts" />
-            <End Role="Gallery" EntitySet="Galleries" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Post_Users" Association="Self.FK_Post_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Post" EntitySet="Posts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_UserRole_dbo_Roles_RoleId" Association="Self.FK_dbo_UserRole_dbo_Roles_RoleId">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="UserRole" EntitySet="UserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_UserRole_dbo_Users_IdentityUser_Id" Association="Self.FK_dbo_UserRole_dbo_Users_IdentityUser_Id">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="UserRole" EntitySet="UserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="PostTag" Association="Self.PostTag">
-            <End Role="Post" EntitySet="Posts" />
-            <End Role="Tag" EntitySet="Tags" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -634,131 +685,140 @@
           <EntitySetMapping Name="AspNetUserClaims">
             <EntityTypeMapping TypeName="NEWSModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
                 <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
             <EntityTypeMapping TypeName="NEWSModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="NEWSModel.Category">
               <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="NEWSModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Desciption" ColumnName="Desciption" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="Desciption" ColumnName="Desciption" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Galleries">
             <EntityTypeMapping TypeName="NEWSModel.Gallery">
               <MappingFragment StoreEntitySet="Gallery">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="PostGalleryID" ColumnName="PostGalleryID" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Posts">
             <EntityTypeMapping TypeName="NEWSModel.Post">
               <MappingFragment StoreEntitySet="Post">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
-                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
-                <ScalarProperty Name="MainImageUrl" ColumnName="MainImageUrl" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="Actived" ColumnName="Actived" />
-                <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
-                <ScalarProperty Name="IsGallery" ColumnName="IsGallery" />
-                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="PostGalleryID" ColumnName="PostGalleryID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="IsGallery" ColumnName="IsGallery" />
+                <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
+                <ScalarProperty Name="Actived" ColumnName="Actived" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="MainImageUrl" ColumnName="MainImageUrl" />
+                <ScalarProperty Name="LongDescription" ColumnName="LongDescription" />
+                <ScalarProperty Name="ShortDescription" ColumnName="ShortDescription" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostGalleries">
+            <EntityTypeMapping TypeName="NEWSModel.PostGallery">
+              <MappingFragment StoreEntitySet="PostGallery">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="NEWSModel.Role">
               <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="NEWSModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserRoles">
             <EntityTypeMapping TypeName="NEWSModel.UserRole">
               <MappingFragment StoreEntitySet="UserRole">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="NEWSModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Actived" ColumnName="Actived" />
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
                 <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Actived" ColumnName="Actived" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="PostTag" TypeName="NEWSModel.PostTag" StoreEntitySet="PostTag">
-            <EndProperty Name="Post">
-              <ScalarProperty Name="ID" ColumnName="PostID" />
-            </EndProperty>
             <EndProperty Name="Tag">
               <ScalarProperty Name="ID" ColumnName="TagID" />
+            </EndProperty>
+            <EndProperty Name="Post">
+              <ScalarProperty Name="ID" ColumnName="PostID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

@@ -1,9 +1,4 @@
 ﻿
-
-
-
-
-
 /*____________START Login____________*/
 
 .mt-checkbox > span:after {
@@ -24,4 +19,8 @@
 
 .bootstrap-select.btn-group .dropdown-toggle .caret {
     left: -390px !important;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label {
+    font-size: 13px !important;
 }

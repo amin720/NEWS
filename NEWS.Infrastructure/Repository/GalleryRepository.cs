@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace NEWS.Infrastructure.Repository
 		{
 			using (var db = new NEWSEntities())
 			{
-				return db.Galleries.OrderBy(d => d.PostID).ToList();
+				return db.Galleries.OrderBy(d => d.PostGalleryID).ToList();
 			}
 		}
 		public void Save(Gallery Instance)
@@ -75,7 +76,7 @@ namespace NEWS.Infrastructure.Repository
 					existItem.Title = Instance.Title;
 					existItem.Caption = Instance.Caption;
 					existItem.FileName = Instance.FileName;
-					existItem.PostID= Instance.PostID;
+					existItem.PostGalleryID = Instance.PostGalleryID;
 
 					db.SaveChanges();
 				}
@@ -120,15 +121,28 @@ namespace NEWS.Infrastructure.Repository
 								.ToArray();
 			}
 		}
-		public IEnumerable<Gallery> GetGallerysByPost(long postID)
+		public IList<Gallery> GetGallerysByPostGallery(long? postGalleryID)
 		{
 			using (var db = new NEWSEntities())
 			{
 				return db.Galleries
-							.Include("Post")
-							.Where(p => p.PostID == postID)
-							.OrderByDescending(post => post.PostID)
+							.Include("PostGallery")
+							.Where(p => p.PostGalleryID == postGalleryID)
+							.OrderByDescending(post => post.PostGalleryID)
 							.ToArray();
+			}
+		}
+
+		public void SetGalleryToPost(long postGalleryID, IList<long> galleryID)
+		{
+			using (var db = new NEWSEntities())
+			{
+				foreach (var item in galleryID)
+				{
+					var gallery = db.Galleries.SingleOrDefault(g => g.ID == item);
+					gallery.PostGalleryID = postGalleryID;
+					db.SaveChanges();
+				}
 			}
 		}
 	}

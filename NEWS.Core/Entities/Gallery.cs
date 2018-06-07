@@ -18,8 +18,8 @@ namespace NEWS.Core.Entities
         public string Title { get; set; }
         public string Caption { get; set; }
         public string FileName { get; set; }
-        public long PostID { get; set; }
+        public long PostGalleryID { get; set; }
     
-        public virtual Post Post { get; set; }
+        public virtual PostGallery PostGallery { get; set; }
     }
 }

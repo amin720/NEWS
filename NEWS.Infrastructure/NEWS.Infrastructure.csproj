@@ -64,6 +64,7 @@
     <Compile Include="Repository\IdentityClasses.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\GalleryRepository.cs" />
+    <Compile Include="Repository\PostGalleryRepository.cs" />
     <Compile Include="Repository\TagRepository.cs" />
     <Compile Include="Repository\PostRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />

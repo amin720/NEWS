@@ -22,7 +22,7 @@
     
     <script>
         function deleteUser(sender, e) {
-            debugger;
+            //debugger;
 
             var usernameParam = sender.dataset.username;
 
@@ -32,18 +32,14 @@
                 data: { username: usernameParam },
                 dataType: "json",
                 success: function (response) {
-                    debugger;
+                    //debugger;
                     $('.portlet-body').load(window.location.href + ".portlet-body");
                     alert('کاربر حذف شد');
 
                 },
                 error: function (event, jqxhr, settings, thrownError) {
-                    debugger;
-                    //$('#invoice').load(window.location.href + " .portlet-body");
-                    //alert('کاربر حذف شد');
-
-                    //alert(settings);
-                    //alert(thrownError);
+                    //debugger;
+                    
                     alert("failed");
                 }
             });
@@ -58,8 +54,8 @@
         <div class="portlet light portlet-fit ">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class=" icon-layers font-green"></i>
-                    <span class="caption-subject font-green bold uppercase">لیست کاربران</span>
+                    <i class=" icon-layers font-red-flamingo"></i>
+                    <span class="caption-subject font-red-flamingo bold uppercase">لیست کاربران</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -70,34 +66,51 @@
                         @foreach (var item in Model)
                         {
                             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                                <div class="mt-card-item">
-                                    <div class="mt-card-avatar mt-overlay-1">
-                                        @if (string.IsNullOrEmpty(item.ImageUrl))
-                                        {
-                                            <img src="~/Areas/Admin/assets/pages/img/avatars/unknown-user.png" />
-                                        }
-                                        else
-                                        {
-                                            <img src="@Url.Content(item.ImageUrl)" />
-                                        }
-                                        <div class="mt-overlay">
-                                            <ul class="mt-info">
-                                                <li>
-                                                    <a class="btn default btn-outline" data-toggle="tooltip" title="ویرایش کاربر" href="@Url.Action("Edit","User",new{username = item.UserName})">
-                                                        <i class="icon-magnifier"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="btn default btn-outline" data-toggle="tooltip" title="حذف کاربر" href="javascript:;" data-UserName ="@item.UserName" onclick="deleteUser(this,event)">
-                                                        <i class="icon-trash"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                <div class="mt-element-ribbon">
+                                    @if (item.Actived == true)
+                                    {
+                                        <div class="ribbon ribbon-vertical-left ribbon-border-dash-vert ribbon-color-success uppercase">
+                                            <div class="ribbon-sub ribbon-bookmark"></div>
+                                            <i class="fa fa-check"></i>
                                         </div>
-                                    </div>
-                                    <div class="mt-card-content">
-                                        <h3 class="mt-card-name">@item.FirstName @item.LastName</h3>
-                                        <p class="mt-card-desc font-grey-mint">@item.SelectedRole</p>
+                                    }
+                                    else
+                                    {
+                                        <div class="ribbon ribbon-vertical-left ribbon-border-dash-vert ribbon-color-danger uppercase">
+                                            <div class="ribbon-sub ribbon-bookmark"></div>
+                                            <i class="fa fa-close"></i>
+                                        </div>
+                                    }
+                                    
+                                    <div class="mt-card-item ribbon-content" style="clear: none;">
+                                        <div class="mt-card-avatar mt-overlay-1">
+                                            @if (string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="~/Areas/Admin/assets/pages/img/avatars/unknown-user.png"/>
+                                            }
+                                            else
+                                            {
+                                                <img src="@Url.Content(item.ImageUrl)"/>
+                                            }
+                                            <div class="mt-overlay">
+                                                <ul class="mt-info">
+                                                    <li>
+                                                        <a class="btn default btn-outline" data-toggle="tooltip" title="ویرایش کاربر" href="@Url.Action("Edit", "User", new {username = item.UserName})">
+                                                            <i class="icon-magnifier"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="btn default btn-outline" data-toggle="tooltip" title="حذف کاربر" href="javascript:;" data-UserName="@item.UserName" onclick="deleteUser(this, event)">
+                                                            <i class="icon-trash"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="mt-card-content">
+                                            <h3 class="mt-card-name">@item.FirstName @item.LastName</h3>
+                                            <p class="mt-card-desc font-grey-mint">@item.SelectedRole</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,6 +119,7 @@
 
 
                     </div>
+
                 </div>
             </div>
         </div>
