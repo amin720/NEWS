@@ -64,7 +64,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 						CategoryID = post.CategoryID,
 						CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name,
 						MainImageUrl = post.MainImageUrl,
-						IsGallery = post.IsGallery,
+						IsGallery = post.IsGallery ?? false,
 						Actived = post.Actived,
 						UserName = user.UserName,
 						FullName = user.FirstName + " " + user.LastName
@@ -109,6 +109,8 @@ namespace NEWS.Web.Areas.Admin.Controllers
 
 			var post = _postRepository.GetByID((long)postID);
 
+			var tags = _postRepository.GetTagsPost((long)postID);
+
 			model.ID = postID;
 			model.Title = post.Title;
 			model.ShortDescription = post.ShortDescription;
@@ -116,7 +118,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 			model.CategoryID = post.CategoryID;
 			model.Actived = post.Actived;
 			model.IsGallery = post.IsGallery;
-			model.SelectedTags = string.Join(",", _postRepository.GetTagsPost((long)postID));
+			model.SelectedTags = tags == null ? null : string.Join(",", tags);
 			model.MainImageUrl = post.MainImageUrl;
 			model.UserID = post.AuthorID;
 			model.PostGalleryID = post.PostGalleryID;
@@ -131,7 +133,9 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Save(PostViewModel model, HttpPostedFileBase image)
 		{
+
 			model.Categories = _categoryRepository.GetAll();
+			model.PostGalleries = _postGalleryRepository.GetAll();
 
 			if (!ModelState.IsValid)
 			{
@@ -166,6 +170,8 @@ namespace NEWS.Web.Areas.Admin.Controllers
 					}
 				}
 
+				if (model.ID == null) model.ID = 0;
+
 				var post = new Post
 				{
 					ID = (long)model.ID,
@@ -199,13 +205,13 @@ namespace NEWS.Web.Areas.Admin.Controllers
 
 						modelTag = _tagRepository.GetByName(tag);
 
-						_postRepository.SetTagToPost(modelPost.ID,modelTag.ID);
+						_postRepository.SetTagToPost(modelPost.ID, modelTag.ID);
 					}
 					else
 					{
 						_postRepository.SetTagToPost(modelPost.ID, modelTag.ID);
 					}
-					
+
 				}
 
 				return RedirectToAction("Index");

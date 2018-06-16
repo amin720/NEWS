@@ -83,6 +83,9 @@
             <i class="icon-social-dropbox font-red-sunglo"></i>
             <span class="caption-subject bold uppercase"> ایجاد گالری</span>
         </div>
+        <div class="pull-left" style="float: left !important">
+            <a href="@Url.Action("ListPostGallery","Gallery")" class="btn yellow-casablanca">بازگشت به لیست گالری <i class="icon-arrow-left" style="font-size: 20px"></i> </a>
+        </div>
     </div>
 
     <div class="portlet-body form">
@@ -117,6 +120,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+
                         <div class="form-group">
                             <label class="control-label col-md-4">تصویر اصلی </label>
 
@@ -129,7 +133,7 @@
                                     <span class="btn red btn-outline btn-file">
                                         <span class="fileinput-new"> انتخاب تصویر </span>
                                         <span class="fileinput-exists"> تغییر </span>
-                                        <input type="file" name="file" accept="image/*">
+                                        <input type="file" name="image" onchange="alert('a');">
                                     </span>
                                     <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
                                 </div>

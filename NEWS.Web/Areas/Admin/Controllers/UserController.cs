@@ -98,7 +98,6 @@ namespace NEWS.Web.Areas.Admin.Controllers
 			    {
 				    string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
 				    string myfile = name + "_" + model.UserName + ext; //appending the name with id
-				    // store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
 				    var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/userAvatars/"), myfile);
 					model.ImageUrl = "~/Areas/Admin/assets/userAvatars/" + myfile;
 

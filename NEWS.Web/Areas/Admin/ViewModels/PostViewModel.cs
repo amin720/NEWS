@@ -18,7 +18,7 @@ namespace NEWS.Web.Areas.Admin.ViewModels
 		public DateTime CreateDate { get; set; }
 		public bool? Actived { get; set; }
 		public bool? IsGallery { get; set; }
-		public int ViewerCount { get; set; }
+		public int? ViewerCount { get; set; }
 		public string SelectedTags { get; set; }
 		public string CategoryName { get; set; }
 		public string UserName { get; set; }

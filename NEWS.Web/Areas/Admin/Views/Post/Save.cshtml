@@ -11,7 +11,8 @@
     <link href="~/Areas/Admin/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
     <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Areas/Admin/assets/global/plugins/bootstrap-select/css/bootstrap-select-rtl.css" rel="stylesheet" />
-    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-summernote/summernote.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Areas/Admin/assets/global/plugins/bootstrap-summernote/summernote.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Areas/Admin/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5-rtl.css" rel="stylesheet" type="text/css" />
     <link href="~/Areas/Admin/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css" />
 
 }
@@ -26,7 +27,9 @@
     <script src="~/Areas/Admin/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="~/Areas/Admin/assets/global/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js" type="text/javascript"></script>
     <script src="~/Areas/Admin/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-summernote/summernote.min.js" type="text/javascript"></script>
+    @*<script src="~/Areas/Admin/assets/global/plugins/bootstrap-summernote/summernote.min.js" type="text/javascript"></script>*@
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js" type="text/javascript"></script>
 }
 @section ScriptPage
 {
@@ -46,12 +49,34 @@
 
             if (select == true) {
                 $('#detailGallery').css('display', 'block');
+                $('input[name="IsGallery"]').val('true');
             }
             else if (select == false) {
                 $('#detailGallery').css('display', 'none');
+                $('input[name="IsGallery"]').val('false');
             }
         }
 
+        function detectActive(sender,e) {
+            var select = $('input[name="Actived"]').bootstrapSwitch('state');
+
+            if (select == true) {
+                $('input[name="Actived"]').val('true');
+            }
+            else if (select == false) {
+                $('input[name="Actived"]').val('false');
+            }
+        }
+
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#user_img').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
 }
@@ -68,7 +93,7 @@
 
             <div class="portlet-body form">
 
-                <form action="@Url.Action("Save", "Post")" method="post" class="" role="form">
+                <form action="@Url.Action("Save", "Post")" method="post" class="" role="form" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -77,6 +102,7 @@
                             <div class="col-md-8">
 
                                 <input type="hidden" name="ID" value="@Model.ID" />
+                                <input type="hidden" name="CreateDate" value="@Model.CreateDate" />
 
                                 <div class="form-group">
                                     <label class="control-label col-md-2">عنوان</label>
@@ -85,7 +111,7 @@
                                             <span class="input-group-addon input-circle-left">
                                                 <i class="fa fa-bookmark-o"></i>
                                             </span>
-                                            <input type="text" class="form-control input-circle-right" name="Title" placeholder="عنوان">
+                                            <input type="text" class="form-control input-circle-right" name="Title" placeholder="عنوان" value="@Model.Title">
                                         </div>
                                     </div>
                                 </div>
@@ -93,13 +119,13 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="ShortDescription">توضیحات کوتاه</label>
                                     <div class="col-md-10">
-                                        <div class="summernoteEditor" name="ShortDescription" id="ShortDescription"> </div>
+                                        <textarea class="wysihtml5 form-control" rows="6" name="ShortDescription" id="ShortDescription">@Model.ShortDescription</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-2" for="LongDescription">توضیحات تکمیلی</label>
                                     <div class="col-md-10">
-                                        <div class="summernoteEditor" name="LongDescription" id="LongDescription"> </div>
+                                        <textarea class="wysihtml5 form-control" rows="6" name="LongDescription" id="LongDescription">@Model.LongDescription</textarea>
                                     </div>
                                 </div>
 
@@ -111,11 +137,11 @@
                                             <div class="col-md-8">
                                                 @if (Model.Actived == true)
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-on-color="success" data-off-color="danger" checked>
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch"  data-on-color="success" data-off-color="danger" checked>
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-on-color="success" data-off-color="danger">
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch"  data-on-color="success" data-off-color="danger" onchange="detectActive(this, event)">
                                                 }
                                             </div>
                                         </div>
@@ -126,18 +152,18 @@
                                             <div class="col-md-8">
                                                 @if (Model.IsGallery == true)
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-on-color="success" data-off-color="danger" checked>
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch"  data-on-color="success" data-off-color="danger" checked>
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-on-color="success" data-off-color="danger" onchange="detectGallery(this, event)">
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch"  data-on-color="success" data-off-color="danger" onchange="detectGallery(this, event)">
                                                 }
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="form-group" id="detailGallery" style="display: none;">
                                     <label>انتصاب نقش</label>
                                     <div class="input-group">
@@ -148,15 +174,15 @@
                                             <option value=""></option>
                                             @foreach (var gallery in Model.PostGalleries)
                                             {
-                                                @if (gallery.ID == Model.PostGalleryID)
-                                                 {
-                                                     <option value="@gallery.ID" selected>@gallery.Name</option>
-                                                 }
-                                                 else
-                                                 {
-                                                     <option value="@gallery.ID">@gallery.Name</option>     
-                                                 }
-                                                
+                                                if (gallery.ID == Model.PostGalleryID)
+                                                {
+                                                    <option value="@gallery.ID" selected>@gallery.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@gallery.ID">@gallery.Name</option>
+                                                }
+
                                             }
                                         </select>
                                     </div>
@@ -175,7 +201,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">تگ ها</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control input-large" value="@Model.SelectedTags" data-role="tagsinput">
+                                        <input type="text" class="form-control input-large" name="SelectedTags" value="@Model.SelectedTags" data-role="tagsinput">
                                     </div>
                                 </div>
 
@@ -204,11 +230,11 @@
                                                                 </label>
                                                                 @if (Model.CategoryID == item.ID)
                                                                 {
-                                                                    <input type="checkbox" id="CategoryId" name="CategoryId" value="@item.ID" checked>
+                                                                    <input type="radio" id="CategoryId" name="CategoryId" value="@item.ID" checked>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <input type="checkbox" id="CategoryId" name="CategoryId" value="@item.ID">
+                                                                    <input type="radio" id="CategoryId" name="CategoryId" value="@item.ID">
                                                                 }
                                                             </div>
                                                         }
@@ -220,11 +246,11 @@
                                                                 </label>
                                                                 @if (Model.CategoryID == item.ID)
                                                                 {
-                                                                    <input type="checkbox" id="CategoryId" name="CategoryId" value="@item.ID" checked>
+                                                                    <input type="radio" id="CategoryId" name="CategoryId" value="@item.ID" checked>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <input type="checkbox" id="CategoryId" name="CategoryId" value="@item.ID">
+                                                                    <input type="radio" id="CategoryId" name="CategoryId" value="@item.ID">
                                                                 }
                                                             </div>
                                                         }
@@ -233,7 +259,7 @@
                                                         ;
                                                     }
                                                 }
-                                }
+}
 
                                     </div>
                                 </div>
@@ -243,20 +269,41 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4">تصویر اصلی </label>
 
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+                                    <div class="col-md-8">
 
+                                        <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
+                                        <br />
+                                        <br />
+                                        <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
 
-                                        </div>
-                                        <div>
-                                            <span class="btn red btn-outline btn-file">
-                                                <span class="fileinput-new"> انتخاب تصویر </span>
-                                                <span class="fileinput-exists"> تغییر </span>
-                                                <input type="file" name="image">
-                                            </span>
-                                            <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
-                                        </div>
+                                        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+                                        {
+                                            <div class="block">
+                                                <!-- Feature Image Input Title -->
+                                                <div class="block-title">
+                                                    <h2>تصویر اصلی</h2>
+                                                </div>
+                                                <div>
+                                                    <img src="@Url.Content(Model.MainImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
+
+                                    @*<div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+
+
+                                            </div>
+                                            <div>
+                                                <span class="btn red btn-outline btn-file">
+                                                    <span class="fileinput-new"> انتخاب تصویر </span>
+                                                    <span class="fileinput-exists"> تغییر </span>
+                                                    <input type="file" name="image">
+                                                </span>
+                                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
+                                            </div>
+                                        </div>*@
 
                                 </div>
 

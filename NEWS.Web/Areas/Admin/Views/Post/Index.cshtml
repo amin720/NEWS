@@ -82,6 +82,7 @@
                                             <i class="fa fa-close"></i>
                                         </div>
                                     }
+
                                     @if (item.IsGallery == true)
                                     {
                                         <div class="ribbon ribbon-vertical-left ribbon-border-dash-vert ribbon-color-warning uppercase">
@@ -93,7 +94,14 @@
                                     <div class="mt-card-item ribbon-content" style="clear: none;">
                                         <div class="mt-card-avatar mt-overlay-1">
 
-                                            <img src="@Url.Content(item.MainImageUrl)" />
+                                            @if (item.MainImageUrl != null)
+                                            {
+                                                <img src="@Url.Content(item.MainImageUrl)" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Areas/Admin/assets/layouts/layout2/img/newspaper.png" />
+                                            }
                                             <div class="mt-overlay">
                                                 <ul class="mt-info">
                                                     <li>
@@ -124,7 +132,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <label class="label label-success">فعال</label>
+                                                    <label class="label label-success" style="background-color: green">فعال</label>
                                                 }
                                             </p>
                                         </div>

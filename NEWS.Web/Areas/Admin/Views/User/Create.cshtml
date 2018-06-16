@@ -27,7 +27,15 @@
             style: 'form-control input-circle-right',
             //size: 6
         });
-
+        function show(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#user_img').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 }
 <div class="row">
@@ -145,22 +153,43 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group ">
-                                    <label class="control-label">تصویر کاربر</label>
+                                    <label class="control-label col-md-4">تصویر کاربر</label>
 
-                                    <div class="fileinput fileinput-new" data-provides="fileinput">
-                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-                                           
 
-                                        </div>
-                                        <div>
-                                            <span class="btn red btn-outline btn-file">
-                                                <span class="fileinput-new"> انتخاب تصویر </span>
-                                                <span class="fileinput-exists"> تغییر </span>
-                                                <input type="file" name="image">
-                                            </span>
-                                            <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
-                                        </div>
+                                    <div class="col-md-8">
+
+                                        <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
+                                        <br />
+                                        <br />
+                                        <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
+
+                                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                        {
+                                            <div class="block">
+                                                <!-- Feature Image Input Title -->
+                                                <div class="block-title">
+                                                    <h2>تصویر اصلی</h2>
+                                                </div>
+                                                <div>
+                                                    <img src="@Url.Content(Model.ImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
+                                    @*<div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+
+
+                                            </div>
+                                            <div>
+                                                <span class="btn red btn-outline btn-file">
+                                                    <span class="fileinput-new"> انتخاب تصویر </span>
+                                                    <span class="fileinput-exists"> تغییر </span>
+                                                    <input type="file" name="image">
+                                                </span>
+                                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
+                                            </div>
+                                        </div>*@
 
                                 </div>
                             </div>
@@ -169,7 +198,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="md-checkbox has-success">
-                                    <input type="checkbox" id="checkbox9" class="md-check" name="Actived" >
+                                    <input type="checkbox" id="checkbox9" class="md-check" name="Actived">
                                     <label for="checkbox9">
                                         <span class="inc"></span>
                                         <span class="check"></span>

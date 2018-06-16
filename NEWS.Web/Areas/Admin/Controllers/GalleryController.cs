@@ -54,7 +54,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		    {
 				var postgallery = new PostGallery
 				{
-					ID = model.PostGalleryID,
+					ID = (long)model.PostGalleryID,
 					Name = model.PostGalleryName,
 				};
 
@@ -108,14 +108,15 @@ namespace NEWS.Web.Areas.Admin.Controllers
 	    // POST: Admin/PostGallery/Create
 	    [HttpPost]
 		[ValidateAntiForgeryToken]
-	    public ActionResult SaveGallery(GalleryViewModel model, HttpPostedFileBase file)
-	    {
-		    model.Galleries = _galleryRepository.GetGallerysByPostGallery(model.PostGalleryPostID);
+	    public ActionResult SaveGallery(GalleryViewModel model, HttpPostedFileBase image)
+		{
+		    model.Galleries = _galleryRepository.GetGallerysByPostGallery(model.PostGalleryID);
+		    model.PostGalleryID = model.PostGalleryID;
 
 		    if (!ModelState.IsValid)
 		    {
 			    ModelState.AddModelError(string.Empty, "یک مشکلی در ثبت اطلاعات رخ داده است.");
-				return RedirectToAction("ListGallery", new { postgalleryID = model.PostGalleryID });
+				return View(viewName:"ListGallery",model:model);
 			}
 
 			try
@@ -123,10 +124,10 @@ namespace NEWS.Web.Areas.Admin.Controllers
 			    var allowedExtensionsImages = new[] {
 				    ".Jpg", ".png", ".jpg", "jpeg"
 			    };
-			    if (file != null)
+			    if (image != null)
 			    {
-				    var fileName = Path.GetFileName(file.FileName);
-				    var ext = Path.GetExtension(file.FileName); //getting the extension(ex-.jpg)
+				    var fileName = Path.GetFileName(image.FileName);
+				    var ext = Path.GetExtension(image.FileName); //getting the extension(ex-.jpg)
 				    if (allowedExtensionsImages.Contains(ext)) //check what type of extension
 				    {
 					    string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
@@ -135,7 +136,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 					    var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/gallery/"), myfile);
 					    model.GalleryFileName = "~/Areas/Admin/assets/gallery/" + myfile;
 
-					    file.SaveAs(path);
+					    image.SaveAs(path);
 				    }
 				    else
 				    {
@@ -145,10 +146,10 @@ namespace NEWS.Web.Areas.Admin.Controllers
 
 				var gallery = new Gallery
 			    {
-				    ID = model.GalleryID,
+				    ID = (long)model.GalleryID,
 				    Title = model.GalleryTitle,
 					Caption = model.GalleryCaption,
-				    PostGalleryID = model.PostGalleryPostID
+				    PostGalleryID = (long)model.PostGalleryPostID
 			    };
 
 			    _galleryRepository.Save(gallery);
@@ -158,7 +159,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		    catch (Exception e)
 		    {
 			    ModelState.AddModelError(String.Empty, e.Message);
-				return RedirectToAction("ListGallery", new { postgalleryID = model.PostGalleryID });
+				return View(viewName:"ListGallery",model:model);
 			}
 	    }
 
