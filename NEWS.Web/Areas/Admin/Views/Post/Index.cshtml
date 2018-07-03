@@ -30,7 +30,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '/Post/Delete',
+                url: '@Url.Action("Delete","Post")',
                 data: { postID: postid },
                 dataType: "json",
                 success: function (response) {
@@ -110,7 +110,7 @@
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a class="btn default btn-outline" data-toggle="tooltip" title="حذف پست" href="javascript:;" data-PostID="@item.ID" onclick="deletePost(this,event)">
+                                                        <a class="btn default btn-outline" data-toggle="tooltip" title="حذف پست" href="@Url.Action("Delete","Post",new{postID = item.ID})" data-PostID="@item.ID" @*onclick="deletePost(this,event)"*@>
                                                             <i class="icon-trash"></i>
                                                         </a>
                                                     </li>

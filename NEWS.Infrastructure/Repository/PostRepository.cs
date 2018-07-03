@@ -128,9 +128,7 @@ namespace NEWS.Infrastructure.Repository
 		{
 			using (var db = new NEWSEntities())
 			{
-				var postTag = db.Posts.SqlQuery("SELECT *\r\nFROM dbo.PostTag\r\nWHERE PostID = {0}",postID);
-
-				return null;
+				return db.Database.SqlQuery<string>("SELECT t.Name\r\nFROM dbo.PostTag AS pt\r\nINNER JOIN dbo.Tag AS t ON t.ID = pt.TagID\r\nWHERE PostID = " + postID).ToList();
 			}
 		}
 		public IList<Post> GetPage(int pageNumber, int pageSize)

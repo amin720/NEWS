@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using NEWS.Web.Services;
 
 namespace NEWS.Web.Areas.Admin.Controllers
 {
@@ -131,6 +132,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		[HttpPost]
 		[Route("Save")]
 		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
 		public async Task<ActionResult> Save(PostViewModel model, HttpPostedFileBase image)
 		{
 
@@ -157,7 +159,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 					if (allowedExtensionsImages.Contains(ext)) //check what type of extension
 					{
 						string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
-						string myfile = name + "_" + model.Title + ext; //appending the name with id
+						string myfile = name + "_" + Extensions.RandomString(5) + ext; //appending the name with id
 																		// store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
 						var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/post/"), myfile);
 						model.MainImageUrl = "~/Areas/Admin/assets/post/" + myfile;
@@ -226,38 +228,40 @@ namespace NEWS.Web.Areas.Admin.Controllers
 		// GET: Admin/Post/Delete
 		[HttpGet]
 		[Route("Delete")]
-		public async Task<JsonResult> Delete(long postID)
+		//public async Task<JsonResult> Delete(long? postID)
+		public async Task<ActionResult> Delete(long? postID)
 		{
-			var model = new List<PostViewModel>();
-			var posts = _postRepository.GetAll();
-			foreach (var post in posts)
-			{
-				var user = await _userRepository.GetUserByIdAsync(post.AuthorID);
-
-
-				model.Add(new PostViewModel
-				{
-					ID = post.ID,
-					Title = post.Title,
-					CategoryID = post.CategoryID,
-					CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name,
-					MainImageUrl = post.MainImageUrl,
-					IsGallery = post.IsGallery,
-					Actived = post.Actived,
-					UserName = user.UserName,
-					FullName = user.FirstName + " " + user.LastName
-				});
-			}
-
 			try
 			{
-				_postRepository.Delete(postID);
+				_postRepository.Delete((long)postID);
 
-				return Json(model, JsonRequestBehavior.AllowGet);
+				return RedirectToAction("Index");
+				//return Json(model, JsonRequestBehavior.AllowGet);
 			}
 			catch (Exception e)
 			{
+				var model = new List<PostViewModel>();
+				var posts = _postRepository.GetAll();
+				foreach (var post in posts)
+				{
+					var user = await _userRepository.GetUserByIdAsync(post.AuthorID);
+
+
+					model.Add(new PostViewModel
+					{
+						ID = post.ID,
+						Title = post.Title,
+						CategoryID = post.CategoryID,
+						CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name,
+						MainImageUrl = post.MainImageUrl,
+						IsGallery = post.IsGallery,
+						Actived = post.Actived,
+						UserName = user.UserName,
+						FullName = user.FirstName + " " + user.LastName
+					});
+				}
 				ModelState.AddModelError(String.Empty, e.Message);
+				//return Json(RedirectToAction("Index"), JsonRequestBehavior.AllowGet);
 				return Json(model, JsonRequestBehavior.AllowGet);
 			}
 		}
