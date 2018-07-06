@@ -5,16 +5,16 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="dd619348096e45d58dc13824d125a38b" Name="Diagram1">
-        <EntityTypeShape EntityType="NEWSModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="16.75" />
-        <EntityTypeShape EntityType="NEWSModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="5.625" />
-        <EntityTypeShape EntityType="NEWSModel.Category" Width="1.5" PointX="0.75" PointY="14.25" />
-        <EntityTypeShape EntityType="NEWSModel.Comment" Width="1.5" PointX="5.25" PointY="10.625" />
-        <EntityTypeShape EntityType="NEWSModel.Gallery" Width="1.5" PointX="3" PointY="20.5" />
-        <EntityTypeShape EntityType="NEWSModel.Post" Width="1.5" PointX="3" PointY="9" />
-        <EntityTypeShape EntityType="NEWSModel.PostGallery" Width="1.5" PointX="0.75" PointY="11.625" />
-        <EntityTypeShape EntityType="NEWSModel.Role" Width="1.5" PointX="3.75" PointY="3.375" />
-        <EntityTypeShape EntityType="NEWSModel.Tag" Width="1.5" PointX="5.25" PointY="14" />
-        <EntityTypeShape EntityType="NEWSModel.UserRole" Width="1.5" PointX="6" PointY="7.125" />
+        <EntityTypeShape EntityType="NEWSModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="14.125" />
+        <EntityTypeShape EntityType="NEWSModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="17" />
+        <EntityTypeShape EntityType="NEWSModel.Category" Width="1.5" PointX="3.75" PointY="10.25" />
+        <EntityTypeShape EntityType="NEWSModel.Comment" Width="1.5" PointX="8.25" PointY="8" />
+        <EntityTypeShape EntityType="NEWSModel.Gallery" Width="1.5" PointX="6" PointY="2.5" />
+        <EntityTypeShape EntityType="NEWSModel.Post" Width="1.5" PointX="6" PointY="6" />
+        <EntityTypeShape EntityType="NEWSModel.PostGallery" Width="1.5" PointX="3.75" PointY="3.625" />
+        <EntityTypeShape EntityType="NEWSModel.Role" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="NEWSModel.Tag" Width="1.5" PointX="8.25" PointY="5.625" />
+        <EntityTypeShape EntityType="NEWSModel.UserRole" Width="1.5" PointX="3" PointY="7.125" />
         <EntityTypeShape EntityType="NEWSModel.User" Width="1.5" PointX="0.75" PointY="5.375" />
         <AssociationConnector Association="NEWSModel.FK_dbo_AspNetUserClaims_dbo_Users_IdentityUser_Id" />
         <AssociationConnector Association="NEWSModel.FK_dbo_AspNetUserLogins_dbo_Users_IdentityUser_Id" />

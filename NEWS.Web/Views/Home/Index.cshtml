@@ -54,7 +54,11 @@
 
                             <li class="post">
                                 <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
-                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title'>
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
                                 </a>
                                 <h2 class="with_number">
                                     <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
@@ -81,8 +85,12 @@
 
 
                             <li class="post">
-                                <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">
-                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title'>
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
                                 </a>
                                 <h2 class="with_number">
                                     <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
@@ -103,155 +111,77 @@
                         }
                     </ul>
                 </div>
+
                 <div class="row page_margin_top_section">
-                    <h4 class="box_header">Posts Carousel</h4>
-                    <div class="horizontal_carousel_container page_margin_top">
-                        <ul class="blog horizontal_carousel autoplay-1 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
-                            <li class="post">
-                                <a href="post.html" title="New Painkiller Rekindles Addiction Concerns">
-                                    <img src='~/Assets/images/samples/330x242/image_08.jpg' alt='img'>
-                                </a>
-                                <h5><a href="post.html" title="New Painkiller Rekindles Addiction Concerns">New Painkiller Rekindles Addiction Concerns</a></h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="post">
-                                <a href="post_soundcloud.html" title="High Altitudes May Aid Weight Control">
-                                    <img src='~/Assets/images/samples/330x242/image_01.jpg' alt='img'>
-                                </a>
-                                <h5><a href="post_soundcloud.html" title="High Altitudes May Aid Weight Control">High Altitudes May Aid Weight Control</a></h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="post">
-                                <a href="post_gallery.html" title="Built on Brotherhood, Club Lives Up to Name">
-                                    <span class="icon gallery"><!--<span class="info">999</span>--></span>
-                                    <img src='~/Assets/images/samples/330x242/image_03.jpg' alt='img'>
-                                </a>
-                                <h5><a href="post_gallery.html" title="Built on Brotherhood, Club Lives Up to Name">Built on Brotherhood, Club Lives Up to Name</a></h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="post first">
-                                <a href="post_small_image.html" title="Built on Brotherhood, Club Lives Up to Name">
-                                    <img src='~/Assets/images/samples/330x242/image_09.jpg' alt='img'>
-                                </a>
-                                <h5><a href="post_small_image.html" title="Built on Brotherhood, Club Lives Up to Name">Built on Brotherhood, Club Lives Up to Name</a></h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row page_margin_top_section">
-                    <h4 class="box_header">Latest From Health</h4>
+                    <h4 class="box_header">آخرین اخبار سیاست</h4>
                     <div class="row">
                         <ul class="blog column column_1_2">
-                            <li class="post">
-                                <a href="post_gallery.html" title="High Altitudes May Aid Weight Control">
-                                    <span class="icon gallery"></span>
-                                    <img src='~/Assets/images/samples/330x242/image_05.jpg' alt='img'>
-                                </a>
-                                <h2 class="with_number">
-                                    <a href="post_gallery.html" title="High Altitudes May Aid Weight Control">High Altitudes May Aid Weight Control</a>
-                                    <a class="comments_number" href="post_gallery.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
-                                </h2>
-                                <ul class="post_details">
-                                    <li class="category"><a href="category_world.html" title="WORLD">WORLD</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                                <p>Politicans have looked weak in the face of such natural disaster, with many facing criticism from local residents for doing little more than turning up as flood tourists at the side of disasters.</p>
-                                <a class="read_more" href="post_gallery.html" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
-                            </li>
+
+                            @for (int i = 0; i < 1; i++)
+                            {
+                                j = 0;
+                                var item = Model.PoliticNEWS[j];
+
+                                <li class="post">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                        @if (item.IsGallery == true)
+                                        {
+                                            <span class="icon gallery"></span>
+                                        }
+                                        <img src='@Url.Content(item.ImageUrl)' alt='@item.Title'>
+                                    </a>
+                                    <h2 class="with_number">
+                                        <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        <a class="comments_number" href="post_gallery.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
+                                    </h2>
+                                    <ul class="post_details">
+                                        <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                    <p>@item.ShortDescription</p>
+                                    <a class="read_more" href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
+                                </li>
+
+                                j++;
+                            }
+
                         </ul>
                         <div class="column column_1_2">
                             <ul class="blog small clearfix">
-                                <li class="post">
-                                    <a href="post.html" title="Study Linking Illnes and Salt Leaves Researchers Doubtful">
-                                        <img src='~/Assets/images/samples/100x100/image_02.jpg' alt='img'>
-                                    </a>
-                                    <div class="post_content">
-                                        <h5>
-                                            <a href="post.html" title="Study Linking Illnes and Salt Leaves Researchers Doubtful">Study Linking Illnes and Salt Leaves Researchers Doubtful</a>
-                                        </h5>
-                                        <ul class="post_details simple">
-                                            <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                            <li class="date">
-                                                10:11 PM, Feb 02
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="post">
-                                    <a href="post.html" title="Seeking the Right Chemistry, Drug Makers Hunt for Mergers">
-                                        <img src='~/Assets/images/samples/100x100/image_13.jpg' alt='img'>
-                                    </a>
-                                    <div class="post_content">
-                                        <h5>
-                                            <a href="post.html" title="Seeking the Right Chemistry, Drug Makers Hunt for Mergers">Seeking the Right Chemistry, Drug Makers Hunt for Mergers</a>
-                                        </h5>
-                                        <ul class="post_details simple">
-                                            <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                            <li class="date">
-                                                10:11 PM, Feb 02
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="post">
-                                    <a href="post_review.html" title="Seeking the Right Chemistry, Drug Makers Hunt for Mergers">
-                                        <span class="icon small review"></span>
-                                        <img src='~/Assets/images/samples/100x100/image_01.jpg' alt='img'>
-                                    </a>
-                                    <div class="post_content">
-                                        <h5>
-                                            <a href="post_review.html" title="Seeking the Right Chemistry, Drug Makers Hunt for Mergers">The Public Health Crisis Hiding in Our Food</a>
-                                        </h5>
-                                        <ul class="post_details simple">
-                                            <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                            <li class="date">
-                                                10:11 PM, Feb 02
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="post">
-                                    <a href="post_gallery.html" title="New Painkiller Rekindles Addiction Concerns">
-                                        <span class="icon small gallery"></span>
-                                        <img src='~/Assets/images/samples/100x100/image_03.jpg' alt='img'>
-                                    </a>
-                                    <div class="post_content">
-                                        <h5>
-                                            <a href="post_gallery.html" title="New Painkiller Rekindles Addiction Concerns">New Painkiller Rekindles Addiction Concerns</a>
-                                        </h5>
-                                        <ul class="post_details simple">
-                                            <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                            <li class="date">
-                                                10:11 PM, Feb 02
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
+
+                                @for (int i = 0; i < 4; i++)
+                                {
+
+                                    var item = Model.PoliticNEWS[j];
+
+                                    <li class="post">
+                                        <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                            @if (item.IsGallery == true)
+                                            {
+                                                <span class="icon gallery"></span>
+                                            }
+                                            <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                        </a>
+                                        <div class="post_content">
+                                            <h5>
+                                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                            </h5>
+                                            <ul class="post_details simple">
+                                                <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                                <li class="date">
+                                                    @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                    j++;
+                                }
+
                             </ul>
-                            <a class="more page_margin_top" href="#">MORE FROM HEALTH</a>
+                            <a class="more page_margin_top" href="@Url.Action("Category","Home",new {ID = 1})">اخبار بیشتر سیاست</a>
                         </div>
                     </div>
                 </div>
@@ -441,246 +371,214 @@
                 </div>
                 <div class="row page_margin_top_section">
                     <div class="column column_1_2">
-                        <h4 class="box_header">Sports</h4>
+                        <h4 class="box_header">سیاست</h4>
                         <ul class="blog">
-                            <li class="post">
-                                <a href="post.html" title="Struggling Nuremberg Sack Coach Verbeek">
-                                    <img src='~/Assets/images/samples/330x242/image_06.jpg' alt='img'>
-                                </a>
-                                <h2 class="with_number">
-                                    <a href="post.html" title="Struggling Nuremberg Sack Coach Verbeek">Struggling Nuremberg Sack Coach Verbeek</a>
-                                    <a class="comments_number" href="post.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
-                                </h2>
-                                <ul class="post_details">
-                                    <li class="category"><a href="category_sports.html" title="SPORTS">SPORTS</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                                <p>Politicans have looked weak in the face of such natural disaster, with many facing criticism from local residents for doing little more than turning up as flood tourists at the side of disasters.</p>
-                                <a class="read_more" href="post.html" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
-                            </li>
+
+                            @for (int i = 0; i < 1; i++)
+                            {
+                                j = 0;
+                                var item = Model.PoliticNEWS[j];
+
+                                <li class="post">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                        @if (item.IsGallery == true)
+                                        {
+                                            <span class="icon gallery"></span>
+                                        }
+                                        <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+                                    </a>
+                                    <h2 class="with_number">
+                                        <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        <a class="comments_number" href="post.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
+                                    </h2>
+                                    <ul class="post_details">
+                                        <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                    <p>@item.ShortDescription</p>
+                                    <a class="read_more" href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
+                                </li>
+
+                                j++;
+                            }
+
+
+
                         </ul>
                         <ul class="blog small clearfix">
-                            <li class="post">
-                                <a href="post.html" title="Bayern Says Ties With Rivals Dortmund Have Frozen">
-                                    <img src='~/Assets/images/samples/100x100/image_14.jpg' alt='img'>
-                                </a>
-                                <div class="post_content">
-                                    <h5>
-                                        <a href="post.html" title="Bayern Says Ties With Rivals Dortmund Have Frozen">Bayern Says Ties With Rivals Dortmund Have Frozen</a>
-                                    </h5>
-                                    <ul class="post_details simple">
-                                        <li class="category"><a href="category_sports.html" title="SPORTS">SPORTS</a></li>
-                                        <li class="date">
-                                            10:11 PM, Feb 02
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="post">
-                                <a href="post.html" title="Built on Brotherhood, Club Lives Up to Name">
-                                    <img src='~/Assets/images/samples/100x100/image_12.jpg' alt='img'>
-                                </a>
-                                <div class="post_content">
-                                    <h5>
-                                        <a href="post.html" title="Built on Brotherhood, Club Lives Up to Name">Built on Brotherhood, Club Lives Up to Name</a>
-                                    </h5>
-                                    <ul class="post_details simple">
-                                        <li class="category"><a href="category_sports.html" title="SPORTS">SPORTS</a></li>
-                                        <li class="date">
-                                            10:11 PM, Feb 02
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            @for (int i = 0; i < 2; i++)
+                            {
+
+                                var item = Model.PoliticNEWS[j];
+
+                                <li class="post">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                        @if (item.IsGallery == true)
+                                        {
+                                            <span class="icon gallery"></span>
+                                        }
+                                        <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                    </a>
+                                    <div class="post_content">
+                                        <h5>
+                                            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        </h5>
+                                        <ul class="post_details simple">
+                                            <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                            <li class="date">
+                                                @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                j++;
+                            }
                         </ul>
-                        <a class="more page_margin_top" href="#">ادامه مطلب</a>
+                        <a class="more page_margin_top" href="@Url.Action("Category", "Home", new {ID = 1})">ادامه مطلب</a>
                     </div>
                     <div class="column column_1_2">
-                        <h4 class="box_header">Lifestyle</h4>
+                        <h4 class="box_header">اجتماع</h4>
                         <ul class="blog">
-                            <li class="post">
-                                <a href="post.html" title="High Altitudes May Aid Weight Control">
-                                    <img src='~/Assets/images/samples/330x242/image_07.jpg' alt='img'>
-                                </a>
-                                <h2 class="with_number">
-                                    <a href="post.html" title="High Altitudes May Aid Weight Control">High Altitudes May Aid Weight Control</a>
-                                    <a class="comments_number" href="post.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
-                                </h2>
-                                <ul class="post_details">
-                                    <li class="category"><a href="category_lifestyle.html" title="LIFESTYLE">LIFESTYLE</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                                <p>Politicans have looked weak in the face of such natural disaster, with many facing criticism from local residents for doing little more than turning up as flood tourists at the side of disasters.</p>
-                                <a class="read_more" href="post.html" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
-                            </li>
+
+                            @for (int i = 0; i < 1; i++)
+                            {
+                                j = 0;
+                                var item = Model.SocietyNEWS[j];
+
+                                <li class="post">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                        @if (item.IsGallery == true)
+                                        {
+                                            <span class="icon gallery"></span>
+                                        }
+                                        <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+                                    </a>
+                                    <h2 class="with_number">
+                                        <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        <a class="comments_number" href="post.html#comments_list" title="2 comments">2<span class="arrow_comments"></span></a>
+                                    </h2>
+                                    <ul class="post_details">
+                                        <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                    <p>@item.ShortDescription</p>
+                                    <a class="read_more" href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
+                                </li>
+
+                                j++;
+                            }
+
+
+
                         </ul>
                         <ul class="blog small clearfix">
-                            <li class="post">
-                                <a href="post.html" title="Bayern Says Ties With Rivals Dortmund Have Frozen">
-                                    <img src='~/Assets/images/samples/100x100/image_01.jpg' alt='img'>
-                                </a>
-                                <div class="post_content">
-                                    <h5>
-                                        <a href="post.html" title="Bayern Says Ties With Rivals Dortmund Have Frozen">Bayern Says Ties With Rivals Dortmund Have Frozen</a>
-                                    </h5>
-                                    <ul class="post_details simple">
-                                        <li class="category"><a href="category_lifestyle.html" title="LIFESTYLE">LIFESTYLE</a></li>
-                                        <li class="date">
-                                            10:11 PM, Feb 02
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="post">
-                                <a href="post_video.html" title="Built on Brotherhood, Club Lives Up to Name">
-                                    <span class="icon small video"></span>
-                                    <img src='~/Assets/images/samples/100x100/image_03.jpg' alt='img'>
-                                </a>
-                                <div class="post_content">
-                                    <h5>
-                                        <a href="post_video.html" title="Built on Brotherhood, Club Lives Up to Name">Built on Brotherhood, Club Lives Up to Name</a>
-                                    </h5>
-                                    <ul class="post_details simple">
-                                        <li class="category"><a href="category_lifestyle.html" title="LIFESTYLE">LIFESTYLE</a></li>
-                                        <li class="date">
-                                            10:11 PM, Feb 02
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
+                            @for (int i = 0; i < 2; i++)
+                            {
+
+                                var item = Model.SocietyNEWS[j];
+
+                                <li class="post">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                        @if (item.IsGallery == true)
+                                        {
+                                            <span class="icon gallery"></span>
+                                        }
+                                        <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                    </a>
+                                    <div class="post_content">
+                                        <h5>
+                                            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        </h5>
+                                        <ul class="post_details simple">
+                                            <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                            <li class="date">
+                                                @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+
+                                j++;
+                            }
                         </ul>
-                        <a class="more page_margin_top" href="#">ادامه مطلب</a>
+                        <a class="more page_margin_top" href="@Url.Action("Category", "Home", new {ID = 6})">ادامه مطلب</a>
                     </div>
                 </div>
             </div>
             <div class="column column_1_3">
                 <h4 class="box_header">توصیه شده ها</h4>
                 <ul class="blog small_margin clearfix">
-                    <li class="post">
-                        <a href="post_gallery.html" title="The Public Health Crisis Hiding in Our Food">
-                            <span class="icon gallery"></span>
-                            <img src='~/Assets/images/samples/510x187/image_12.jpg' alt='img'>
-                        </a>
-                        <div class="post_content">
-                            <h5>
-                                <a href="post_gallery.html" title="The Public Health Crisis Hiding in Our Food">The Public Health Crisis Hiding in Our Food</a>
-                            </h5>
-                            <ul class="post_details simple">
-                                <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                <li class="date">
-                                    10:11 PM, Feb 02
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="post">
-                        <a href="post.html" title="The Public Health Crisis Hiding in Our Food">
-                            <img src='~/Assets/images/samples/510x187/image_01.jpg' alt='img'>
-                        </a>
-                        <div class="post_content">
-                            <h5>
-                                <a href="post.html" title="The Public Health Crisis Hiding in Our Food">Climate Change Debate While Britain Floods</a>
-                            </h5>
-                            <ul class="post_details simple">
-                                <li class="category"><a href="category_world.html" title="WORLD">WORLD</a></li>
-                                <li class="date">
-                                    10:11 PM, Feb 02
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="post">
-                        <a href="post.html" title="New Painkiller Rekindles Addiction Concerns">
-                            <img src='~/Assets/images/samples/510x187/image_14.jpg' alt='img'>
-                        </a>
-                        <div class="post_content">
-                            <h5>
-                                <a href="post.html" title="New Painkiller Rekindles Addiction Concerns">New Painkiller Rekindles Addiction Concerns</a>
-                            </h5>
-                            <ul class="post_details simple">
-                                <li class="category"><a href="category_world.html" title="WORLD">WORLD</a></li>
-                                <li class="date">
-                                    10:11 PM, Feb 02
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        j = 0;
+                        var item = Model.TrendNEWS[j];
+
+                        <li class="post">
+                            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                @if (item.IsGallery == true)
+                                {
+                                    <span class="icon gallery"></span>
+                                }
+                                <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 510px; height: 187px;">
+                            </a>
+                            <div class="post_content">
+                                <h5>
+                                    <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                </h5>
+                                <ul class="post_details simple">
+                                    <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                    <li class="date">
+                                        @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        j++;
+                    }
                 </ul>
                 <h4 class="box_header page_margin_top_section">آخرین اخبار</h4>
                 <div class="vertical_carousel_container clearfix">
                     <ul class="blog small vertical_carousel autoplay-1 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
-                        <li class="post">
-                            <a href="post_gallery.html" title="Study Linking Illnes and Salt Leaves Researchers Doubtful">
-                                <span class="icon small gallery"></span>
-                                <img src='~/Assets/images/samples/100x100/image_06.jpg' alt='img'>
-                            </a>
-                            <div class="post_content">
-                                <h5>
-                                    <a href="post_gallery.html" title="Study Linking Illnes and Salt Leaves Researchers Doubtful">Study Linking Illnes and Salt Leaves Researchers Doubtful</a>
-                                </h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_health.html" title="HEALTH">HEALTH</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="post">
-                            <a href="post.html" title="Syrian Civilians Trapped For Months Continue To Be Evacuated">
-                                <img src='~/Assets/images/samples/100x100/image_12.jpg' alt='img'>
-                            </a>
-                            <div class="post_content">
-                                <h5>
-                                    <a href="post.html" title="Syrian Civilians Trapped For Months Continue To Be Evacuated">Syrian Civilians Trapped For Months Continue To Be Evacuated</a>
-                                </h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_world.html" title="WORLD">WORLD</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="post">
-                            <a href="post.html" title="Built on Brotherhood, Club Lives Up to Name">
-                                <img src='~/Assets/images/samples/100x100/image_02.jpg' alt='img'>
-                            </a>
-                            <div class="post_content">
-                                <h5>
-                                    <a href="post.html" title="Built on Brotherhood, Club Lives Up to Name">Built on Brotherhood, Club Lives Up to Name</a>
-                                </h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_sports.html" title="SPORTS">SPORTS</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="post">
-                            <a href="post.html" title="Nuclear Fusion Closer to Becoming a Reality">
-                                <img src='~/Assets/images/samples/100x100/image_13.jpg' alt='img'>
-                            </a>
-                            <div class="post_content">
-                                <h5>
-                                    <a href="post.html" title="Nuclear Fusion Closer to Becoming a Reality">Nuclear Fusion Closer to Becoming a Reality</a>
-                                </h5>
-                                <ul class="post_details simple">
-                                    <li class="category"><a href="category_science.html" title="SCIENCE">SCIENCE</a></li>
-                                    <li class="date">
-                                        10:11 PM, Feb 02
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            j = 0;
+                            var item = Model.TrendNEWS[j];
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                </a>
+                                <div class="post_content">
+                                    <h5>
+                                        <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                    </h5>
+                                    <ul class="post_details simple">
+                                        <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                            j++;
+                        }
                     </ul>
                 </div>
-                <div class="tabs no_scroll page_margin_top_section clearfix">
+                @*<div class="tabs no_scroll page_margin_top_section clearfix">
                     <ul class="tabs_navigation clearfix">
                         <li>
                             <a href="#sidebar-most-read" title="بیشترین مطالعه شده">
@@ -801,7 +699,7 @@
                         </ul>
                         <a class="more page_margin_top" href="#">نمایش بیشتر</a>
                     </div>
-                </div>
+                </div>*@
                 <h4 class="box_header page_margin_top_section">بهترین نویسندگان</h4>
                 <ul class="authors rating clearfix">
                     <li class="author">

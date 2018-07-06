@@ -160,7 +160,7 @@ namespace NEWS.Web.Areas.Admin.Controllers
 					{
 						string name = Path.GetFileNameWithoutExtension(fileName); //getting file name without extensi
 						string myfile = name + "_" + Extensions.RandomString(5) + ext; //appending the name with id
-																		// store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
+																					   // store the file inside ~/project folder(Img)E:\Project-Work\Zahra.Project\Restaurant\Restaurant.Web\assets\images\products\1.png
 						var path = Path.Combine(Server.MapPath("~/Areas/Admin/assets/post/"), myfile);
 						model.MainImageUrl = "~/Areas/Admin/assets/post/" + myfile;
 
@@ -190,6 +190,8 @@ namespace NEWS.Web.Areas.Admin.Controllers
 				};
 
 				_postRepository.Save(post);
+
+				if (string.IsNullOrEmpty(model.SelectedTags)) return RedirectToAction("Index");
 
 				var tags = model.SelectedTags.Split(',').ToList();
 

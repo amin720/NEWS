@@ -36,19 +36,44 @@
         });
 
 
+        //function bindGallery(sender, e) {
+        //    debugger;
+        //    var gallery_ID = sender.dataset.galleryid;
+        //    var gallery_Title = sender.dataset.gallerytitle;
+        //    var gallery_Caption = sender.dataset.gallerycaption;
+        //    var gallery_Image = sender.dataset.galleryimage;
+
+        //    $('#gallery_ID').val(gallery_ID);
+        //    $('#gallery_Title').val(gallery_Title);
+        //    $('#gallery_Caption').val(gallery_Caption);
+        //    $('#gallery_Image').attr('src',gallery_Image);
+        //};
+
         function bindGallery(sender, e) {
             //debugger;
-            var gallery_ID = sender.dataset.galleryid;
-            var gallery_Title = sender.dataset.gallerytitle;
-            var gallery_Caption = sender.dataset.gallerycaption;
 
-            $('#gallery_ID').val(gallery_ID);
-            $('#gallery_Title').val(gallery_Title);
-            $('#gallery_Caption').val(gallery_Caption);
+            var postgallery = $('#PostGalleryID').val();
+            var gallery = sender.dataset.galleryid;
+
+            $.ajax({
+                type: "PUT",
+                url: '/Gallery/ListGallery',
+                data: { postgalleryID: postgallery, galleryID: gallery },
+                success: function (response) {
+                    //debugger;
+
+                    location.reload();
+                    //alert('گالری حذف شد');
+
+                },
+                error: function (event, jqxhr, settings, thrownError) {
+                    //debugger;
+
+                    alert("failed");
+                }
+            });
         };
 
-    </script>
-    <script type="text/javascript">
         function deleteGallery(sender, e) {
             //debugger;
 
@@ -90,7 +115,7 @@
 
     <div class="portlet-body form">
 
-        <form action="@Url.Action("SaveGallery","Gallery")" id="galleryForm" class="form-horizontal" method="post" role="form">
+        <form action="@Url.Action("SaveGallery","Gallery")" id="galleryForm" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -98,8 +123,8 @@
             <input type="hidden" name="PostGalleryID" id="PostGalleryID" value="@Model.PostGalleryID" />
             <div class="form-body">
 
-                <input type="hidden" id="gallery_ID" name="GalleryID" value="" />
-                
+                <input type="hidden" id="gallery_ID" name="GalleryID" value="@Model.GalleryID" />
+
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group">
@@ -108,14 +133,18 @@
                                 <span class="input-group-addon input-circle-left">
                                     <i class="fa fa-folder-o"></i>
                                 </span>
-                                <input type="text" class="form-control input-circle-right" id="gallery_Title" name="GalleryTitle" placeholder="عنوان">
+                                <input type="text" class="form-control input-circle-right" id="gallery_Title" name="GalleryTitle" placeholder="عنوان" value="@Model.GalleryTitle">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="control-label col-md-2">شرح کوتاه</label>
                             <div class="col-md-10">
-                                <textarea cols="100" rows="5" name="GalleryCaption"></textarea>
+
+                                <textarea cols="100" rows="5" name="GalleryCaption">
+                                        @Model.GalleryCaption
+                                    </textarea>
+
                             </div>
                         </div>
                     </div>
@@ -128,12 +157,18 @@
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
 
 
+                                    @if (!string.IsNullOrEmpty(Model.GalleryFileName))
+                                    {
+                                        <img id="gallery_Image" src="@Url.Content(Model.GalleryFileName)" />
+                                    }
+
+
                                 </div>
                                 <div>
                                     <span class="btn red btn-outline btn-file">
                                         <span class="fileinput-new"> انتخاب تصویر </span>
                                         <span class="fileinput-exists"> تغییر </span>
-                                        <input type="file" name="image" onchange="alert('a');">
+                                        <input type="file" name="image">
                                     </span>
                                     <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
                                 </div>
@@ -142,9 +177,9 @@
                         </div>
                     </div>
                 </div>
-                
 
-                
+
+
 
                 <button type="submit" class="btn btn-block green-soft">ثبت مشخصات</button>
             </div>
@@ -175,11 +210,12 @@
                                     <div class="mt-overlay">
                                         <ul class="mt-info">
                                             <li>
-                                                <a class="btn default btn-outline" data-toggle="tooltip" title="ویرایش فایل" href="javascript:;"
+                                                <a class="btn default btn-outline" data-toggle="tooltip" title="ویرایش فایل" href="@Url.Action("ListGallery","Gallery",new {postgalleryID = item.PostGalleryID,galleryID = item.ID})"
                                                    data-GalleryID="@item.ID"
                                                    data-GalleryTitle="@item.Title"
                                                    data-GalleryCaption="@item.Caption"
-                                                   onclick="bindGallery(this, event)">
+                                                   data-GalleryImage="@item.FileName"
+                                                   @*onclick="bindGallery(this, event)"*@>
                                                     <i class="icon-magnifier"></i>
                                                 </a>
                                             </li>

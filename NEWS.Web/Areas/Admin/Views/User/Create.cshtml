@@ -36,6 +36,17 @@
                 filerdr.readAsDataURL(input.files[0]);
             }
         }
+        function detectActive(sender, e) {
+            var select = $('input[name="Actived"]').bootstrapSwitch('state');
+
+            if (select == true) {
+                $('input[name="Actived"]').val('true');
+            }
+            else if (select == false) {
+                $('input[name="Actived"]').val('false');
+            }
+        }
+
     </script>
 }
 <div class="row">
@@ -51,7 +62,7 @@
 
             <div class="portlet-body form">
 
-                <form action="@Url.Action("Create", "User")" method="post" class="" role="form">
+                <form action="@Url.Action("Create", "User")" method="post" class="" role="form" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -156,40 +167,47 @@
                                     <label class="control-label col-md-4">تصویر کاربر</label>
 
 
-                                    <div class="col-md-8">
+                                    @*<div class="col-md-8">
 
-                                        <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
-                                        <br />
-                                        <br />
-                                        <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
+                                            <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
+                                            <br />
+                                            <br />
+                                            <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
 
-                                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                        {
-                                            <div class="block">
-                                                <!-- Feature Image Input Title -->
-                                                <div class="block-title">
-                                                    <h2>تصویر اصلی</h2>
+                                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                            {
+                                                <div class="block">
+                                                    <!-- Feature Image Input Title -->
+                                                    <div class="block-title">
+                                                        <h2>تصویر اصلی</h2>
+                                                    </div>
+                                                    <div>
+                                                        <img src="@Url.Content(Model.ImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <img src="@Url.Content(Model.ImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                    @*<div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-
-
-                                            </div>
-                                            <div>
-                                                <span class="btn red btn-outline btn-file">
-                                                    <span class="fileinput-new"> انتخاب تصویر </span>
-                                                    <span class="fileinput-exists"> تغییر </span>
-                                                    <input type="file" name="image">
-                                                </span>
-                                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
-                                            </div>
+                                            }
                                         </div>*@
+
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+
+
+                                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                            {
+                                                <img id="gallery_Image" src="@Url.Content(Model.ImageUrl)" />
+                                            }
+
+
+                                        </div>
+                                        <div>
+                                            <span class="btn red btn-outline btn-file">
+                                                <span class="fileinput-new"> انتخاب تصویر </span>
+                                                <span class="fileinput-exists"> تغییر </span>
+                                                <input type="file" name="image">
+                                            </span>
+                                            <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -197,13 +215,18 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="md-checkbox has-success">
-                                    <input type="checkbox" id="checkbox9" class="md-check" name="Actived">
-                                    <label for="checkbox9">
-                                        <span class="inc"></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span> فعال
-                                    </label>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4"> وضعیت پست</label>
+                                    <div class="col-md-8">
+                                        @if (Model.Actived == true)
+                                        {
+                                            <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch" data-on-color="success" data-off-color="danger" checked>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch" data-on-color="success" data-off-color="danger" onchange="detectActive(this, event)">
+                                        }
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-offset-4 col-md-3">

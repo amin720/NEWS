@@ -52,7 +52,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="150" />
+          <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Caption" Type="nvarchar(max)" />
           <Property Name="FileName" Type="nvarchar(max)" />
           <Property Name="PostGalleryID" Type="bigint" Nullable="false" />
@@ -62,8 +62,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="250" />
-          <Property Name="ShortDescription" Type="nvarchar" MaxLength="250" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="ShortDescription" Type="nvarchar(max)" />
           <Property Name="LongDescription" Type="nvarchar(max)" />
           <Property Name="MainImageUrl" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
@@ -79,7 +79,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PostTag">
           <Key>
@@ -458,7 +458,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostGalleryID" Type="Int64" Nullable="false" />
@@ -469,8 +469,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ShortDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="LongDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MainImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -491,7 +491,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Galleries" Relationship="NEWSModel.FK_Gallery_PostGallery" FromRole="PostGallery" ToRole="Gallery" />
           <NavigationProperty Name="Posts" Relationship="NEWSModel.FK_Post_PostGallery" FromRole="PostGallery" ToRole="Post" />
         </EntityType>

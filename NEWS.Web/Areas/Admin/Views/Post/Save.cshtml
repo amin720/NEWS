@@ -57,7 +57,7 @@
             }
         }
 
-        function detectActive(sender,e) {
+        function detectActive(sender, e) {
             var select = $('input[name="Actived"]').bootstrapSwitch('state');
 
             if (select == true) {
@@ -137,11 +137,11 @@
                                             <div class="col-md-8">
                                                 @if (Model.Actived == true)
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch"  data-on-color="success" data-off-color="danger" checked>
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch" data-on-color="success" data-off-color="danger" checked>
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch"  data-on-color="success" data-off-color="danger" onchange="detectActive(this, event)">
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="Actived" data-toggle="switch" data-on-color="success" data-off-color="danger" onchange="detectActive(this, event)">
                                                 }
                                             </div>
                                         </div>
@@ -152,11 +152,11 @@
                                             <div class="col-md-8">
                                                 @if (Model.IsGallery == true)
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch"  data-on-color="success" data-off-color="danger" checked>
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch" data-on-color="success" data-off-color="danger" checked>
                                                 }
                                                 else
                                                 {
-                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch"  data-on-color="success" data-off-color="danger" onchange="detectGallery(this, event)">
+                                                    <input type="checkbox" class="make-switch" data-on-text="فعال" data-off-text="غیر فعال" name="IsGallery" data-toggle="switch" data-on-color="success" data-off-color="danger" onchange="detectGallery(this, event)">
                                                 }
                                             </div>
                                         </div>
@@ -259,7 +259,7 @@
                                                         ;
                                                     }
                                                 }
-}
+                                }
 
                                     </div>
                                 </div>
@@ -269,41 +269,49 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4">تصویر اصلی </label>
 
-                                    <div class="col-md-8">
+                                    @*<div class="col-md-8">
 
-                                        <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
-                                        <br />
-                                        <br />
-                                        <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
+                                            <img id="user_img" style="width: 200px; height: 150px; border: solid" alt="" />
+                                            <br />
+                                            <br />
+                                            <input type="file" title="فایل اصلی" id="image" name="image" onchange="show(this)" />
 
-                                        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
-                                        {
-                                            <div class="block">
-                                                <!-- Feature Image Input Title -->
-                                                <div class="block-title">
-                                                    <h2>تصویر اصلی</h2>
+                                            @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+                                            {
+                                                <div class="block">
+                                                    <!-- Feature Image Input Title -->
+                                                    <div class="block-title">
+                                                        <h2>تصویر اصلی</h2>
+                                                    </div>
+                                                    <div>
+                                                        <img src="@Url.Content(Model.MainImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <img src="@Url.Content(Model.MainImageUrl)" alt="" style="width: 200px; height: 150px; border: solid" />
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-
-                                    @*<div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
-
-
-                                            </div>
-                                            <div>
-                                                <span class="btn red btn-outline btn-file">
-                                                    <span class="fileinput-new"> انتخاب تصویر </span>
-                                                    <span class="fileinput-exists"> تغییر </span>
-                                                    <input type="file" name="image">
-                                                </span>
-                                                <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
-                                            </div>
+                                            }
                                         </div>*@
+
+
+
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;">
+
+
+                                            @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+                                            {
+                                                <img id="gallery_Image" src="@Url.Content(Model.MainImageUrl)" />
+                                            }
+
+
+                                        </div>
+                                        <div>
+                                            <span class="btn red btn-outline btn-file">
+                                                <span class="fileinput-new"> انتخاب تصویر </span>
+                                                <span class="fileinput-exists"> تغییر </span>
+                                                <input type="file" name="image">
+                                            </span>
+                                            <a href="javascript:;" class="btn red fileinput-exists" data-dismiss="fileinput"> حذف </a>
+                                        </div>
+                                    </div>
 
                                 </div>
 

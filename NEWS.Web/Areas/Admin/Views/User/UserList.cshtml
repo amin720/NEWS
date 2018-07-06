@@ -86,11 +86,11 @@
                                         <div class="mt-card-avatar mt-overlay-1">
                                             @if (string.IsNullOrEmpty(item.ImageUrl))
                                             {
-                                                <img src="~/Areas/Admin/assets/pages/img/avatars/unknown-user.png"/>
+                                                <img src="~/Areas/Admin/assets/pages/img/avatars/unknown-user.png" style="width: 206px; height: 206px;"/>
                                             }
                                             else
                                             {
-                                                <img src="@Url.Content(item.ImageUrl)"/>
+                                                <img src="@Url.Content(item.ImageUrl)" style="width: 206px; height: 206px;"/>
                                             }
                                             <div class="mt-overlay">
                                                 <ul class="mt-info">

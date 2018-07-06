@@ -44,40 +44,75 @@ namespace NEWS.Web.Controllers
 
 			var model = new MainPageViewModel();
 			var posts = _postRepository.GetAll();
+			var societyPosts = posts.Where(p => p.CategoryID == 6);
+			var politicPosts = posts.Where(p => p.CategoryID == 1);
+			 
+
+			societyPosts.Shuffle();
+			politicPosts.Shuffle();
 			posts.Shuffle();
 
-			var newsList = new List<NEWSPost>();
-
-			foreach (var post in posts)
-			{
-				if (post.CategoryID != null)
-					newsList.Add(new NEWSPost
-					{
-						PostID = post.ID,
-						Title = post.Title,
-						ShortDescription = post.ShortDescription,
-						ImageUrl = post.MainImageUrl,
-						CreatePost = post.CreateDate,
-						IsGallery = post.IsGallery,
-						CategoryID = post.CategoryID,
-						CategoryName = _categoryRepository.GetByID((long) post.CategoryID).Name
-					});
-			}
-
-			
+			var newsList = (from post in posts
+							where post.CategoryID != null
+							select new NEWSPost
+							{
+								PostID = post.ID,
+								Title = post.Title,
+								ShortDescription = post.ShortDescription,
+								ImageUrl = post.MainImageUrl,
+								CreatePost = post.CreateDate,
+								IsGallery = post.IsGallery,
+								CategoryID = post.CategoryID,
+								CategoryName = _categoryRepository.GetByID((long) post.CategoryID).Name
+							}).ToList();
 
 
 			model.TrendNEWS = newsList
 				.Skip(skip)
 				.Take(5)
 				.ToArray();
+
 			model.LastNEWS = newsList
 				.OrderByDescending(p => p.CreatePost)
 				.Skip(skip)
 				.Take(5)
 				.ToArray();
 
-			
+			model.PoliticNEWS = (from post in politicPosts
+								 where post.CategoryID != null
+								 select new NEWSPost
+								 {
+								 	PostID = post.ID,
+								 	Title = post.Title,
+								 	ShortDescription = post.ShortDescription,
+								 	ImageUrl = post.MainImageUrl,
+								 	CreatePost = post.CreateDate,
+								 	IsGallery = post.IsGallery,
+								 	CategoryID = post.CategoryID,
+								 	CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name
+								 })
+									.Skip(skip)
+									.Take(5)
+									.ToList();
+
+			model.SocietyNEWS = (from post in societyPosts
+								 where post.CategoryID != null
+								 select new NEWSPost
+								 {
+								 	PostID = post.ID,
+								 	Title = post.Title,
+								 	ShortDescription = post.ShortDescription,
+								 	ImageUrl = post.MainImageUrl,
+								 	CreatePost = post.CreateDate,
+								 	IsGallery = post.IsGallery,
+								 	CategoryID = post.CategoryID,
+								 	CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name
+								 })
+									.Skip(skip)
+									.Take(5)
+									.ToList();
+
+
 
 
 			return View(model);
