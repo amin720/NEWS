@@ -1,0 +1,550 @@
+﻿@using NEWS.Web.Services
+@model NEWS.Web.ViewModels.PostViewModel
+@{
+    ViewBag.Title = " - مجله خبری تی جی" + Model.CategoryName;
+    Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
+}
+@section TrendNEWS
+{
+
+    @foreach (var item in Model.TrendNEWS)
+    {
+        <li>
+            <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+        </li>
+    }
+
+}
+@section LastNEWS
+{
+    @for (int i = 0; i < 4; i++)
+    {
+        var item = Model.LastNEWS[0 + i];
+
+        <li class="post">
+            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                @if (item.IsGallery == true)
+                {
+                    <span class="icon gallery"></span>
+                }
+                <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+            </a>
+            <div class="post_content">
+                <h5>
+                    <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                </h5>
+                <ul class="post_details simple">
+                    <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                    <li class="date">
+                        @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+    }
+}
+@section GalleryNEWS{
+    @for (int i = 0; i < 3; i++)
+    {
+        var item = Model.LastNEWS[0 + i];
+
+
+        <li class="post">
+            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                @if (item.IsGallery == true)
+                {
+                    <span class="icon gallery"></span>
+                }
+                <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+            </a>
+            <h2 class="with_number">
+                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                <a class="comments_number" href="#" title="نظر @item.CommentCount">@item.CommentCount<span class="arrow_comments"></span></a>
+            </h2>
+            <ul class="post_details simple">
+                <li class="date">
+                    @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                </li>
+                <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+
+            </ul>
+        </li>
+
+    }
+}
+@section CategoryNEWS
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li>
+            <h4><a href="@Url.Action("Category", "Home", new {ID = item.ID})" title="@item.Name">@item.Name</a></h4>
+        </li>
+    }
+}
+
+
+<div class="page">
+    <div class="page_layout page_margin_top clearfix">
+        <div class="row page_margin_top">
+            <div class="column column_1_1">
+                <div class="horizontal_carousel_container small">
+                    <ul class="blog horizontal_carousel autoplay-1 scroll-1 visible-3 navigation-1 easing-easeInOutQuint duration-750">
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            var item = Model.LastNEWS[0 + i];
+
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 510px; height: 187px;">
+                                </a>
+                                <h5 class="with_number">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                </h5>
+                                <ul class="post_details">
+                                    <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                    <li class="date">
+                                        @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr class="divider page_margin_top">
+        <div class="row page_margin_top">
+
+            <div class="column column_1_3">
+                <h4 class="box_header page_margin_top_section">آخرین اخبار</h4>
+                <div class="vertical_carousel_container clearfix">
+                    <ul class="blog small vertical_carousel autoplay-1 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            var item = Model.TrendNEWS[0 + i];
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                </a>
+                                <div class="post_content">
+                                    <h5>
+                                        <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                    </h5>
+                                    <ul class="post_details simple">
+                                        <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                        }
+
+                    </ul>
+                </div>
+
+                <h4 class="box_header page_margin_top_section">گالری</h4>
+                <div class="horizontal_carousel_container big page_margin_top">
+                    <ul class="blog horizontal_carousel visible-1 autoplay-0 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+
+                        @for (int i = 0; i < 3; i++)
+                        {
+                            var item = Model.LastNEWS[0 + i];
+
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+                                </a>
+                                <h2 class="with_number">
+                                    <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                    <a class="comments_number" href="#" title="نظر @item.CommentCount">@item.CommentCount<span class="arrow_comments"></span></a>
+                                </h2>
+                                <ul class="post_details simple">
+                                    <li class="date">
+                                        @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                    </li>
+                                    <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+
+                                </ul>
+                            </li>
+
+                        }
+
+                    </ul>
+                </div>
+                <h4 class="box_header page_margin_top_section">دسته بندی</h4>
+                <ul class="taxonomies columns clearfix page_margin_top">
+                    @foreach (var item in Model.CategoryNEWS)
+                    {
+                        <li>
+                            <h4><a href="@Url.Action("Category", "Home", new {ID = item.ID})" title="@item.Name">@item.Name</a></h4>
+                        </li>
+                    }
+                </ul>
+                <h4 class="box_header page_margin_top_section">تگ ها</h4>
+                <ul class="taxonomies clearfix page_margin_top">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <li>
+                            <a href="@Url.Action("Tag","Home",new{ID = tag.ID})" title="@tag.Name">@tag.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="column column_2_3">
+                <div class="row">
+                    <div class="post single">
+                        <h1 class="post_title">
+                            @Model.Title
+                        </h1>
+                        <ul class="post_details clearfix">
+                            <li class="detail category">در <a href="@Url.Action("Category","Home",new{ID = Model.CategoryID})" title="@Model.CategoryName">@Model.CategoryName</a></li>
+                            <li class="detail date">@Model.CreateDate.ToPeString("dddd, dd,MMMM,yyyy")</li>
+                            <li class="detail author">توسط <a href="@Url.Action("Author","Home",new{ID = Model.AuthorID})" title="@Model.AuthorName">@Model.AuthorName</a></li>
+                            @*<li class="detail views">6 254 Views</li>*@
+                            <li class="detail comments"><a href="#comments_list" class="scroll_to_comments" title="@Model.CommentCount نظر">@Model.CommentCount نظر</a></li>
+                        </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="horizontal_carousel_container thin page_margin_top gallery_control">
+                            <ul class="horizontal_carousel control-for-post-gallery visible-5 autoplay-0 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+
+                                @foreach (var gallery in Model.GalleryRelatedPost)
+                                {
+                                    <li>
+                                        <a href="#"><img src='@Url.Content(gallery.FileName)' alt='@gallery.Title'></a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div id="control-by-post-gallery" class="horizontal_carousel_container big margin_top_10">
+                            <ul id="post-gallery" class="horizontal_carousel visible-1 autoplay-0 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+
+                                @foreach (var gallery in Model.GalleryRelatedPost)
+                                {
+                                    <li>
+                                        <!--class="prettyPhoto" rel="prettyPhoto[gallery]"-->
+                                        <a href="@Url.Content(gallery.FileName)" data-rel="gallery" title="@gallery.Title">
+                                            <span class="icon fullscreen animated"></span>
+                                            <img src='@Url.Content(gallery.FileName)' alt='@gallery.Title'>
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div id="gallery-popup" class="gallery_popup">
+                            <div class="header_container padding_top_bottom_15">
+                                <div class="header clearfix">
+                                    <h1><a title="مجله خبری تی جی" href="@Url.Action("Index","Home")">مجله خبری تی جی</a></h1>
+                                    <a href="#" class="gallery_close close_popup"></a>
+                                </div>
+                            </div>
+                            <div class="header_container">
+                                <div class="horizontal_carousel_container thin gallery_control">
+                                    <ul class="horizontal_carousel control-for-post-gallery-popup visible-8 autoplay-0 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+                                        @foreach (var gallery in Model.GalleryRelatedPost)
+                                        {
+                                            <li>
+                                                <a href="#"><img src='@Url.Content(gallery.FileName)' alt='@gallery.Title' width="130" height="95"></a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="page">
+                                <div class="row page_margin_top">
+                                    <div id="control-by-post-gallery-popup" class="horizontal_carousel_container big margin_top_10">
+                                        <ul id="post-gallery-popup" class="horizontal_carousel visible-1 autoplay-0 scroll-1 navigation-0 easing-easeInOutQuint duration-750">
+
+                                            @foreach (var gallery in Model.GalleryRelatedPost)
+                                            {
+                                            <li>
+                                                <div class="column column_1_3" style="margin-right: 30px; margin-left: unset;">
+                                                    <h3 class="page_margin_top">
+                                                        @gallery.Title
+                                                    </h3>
+                                                    <p>
+                                                        @gallery.Caption
+                                                    </p>
+
+                                                    <div class="clearfix">
+                                                        <a class="read_more close_popup page_margin_top_section" href="#" title="بیشتر بخوانید"><span class="arrow"></span><span>بازگشت به خبر</span></a>
+                                                    </div>
+                                                </div>
+                                                <div class="column column_2_3"  style="margin-right: 30px; margin-left: unset;">
+                                                    <img src='@Url.Content(gallery.FileName)' alt='@gallery.Title' width="690" height="450">
+                                                </div>
+
+                                            </li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div class="post_content page_margin_top_section clearfix">
+                            <div class="content_box">
+                                <h3 class="excerpt">@Model.ShortDescription</h3>
+                                <div class="text">
+                                    <p>
+                                        @Html.Raw(Model.LongDescription)
+                                    </p>
+
+                                    <a title="@Model.CommentCount نظر" href="@Url.Action("Post", "Home", new {ID = Model.ID})" class="read_more page_margin_top scroll_to_comments"><span class="arrow"></span><span>@Model.CommentCount نظر</span></a>
+                                </div>
+                            </div>
+                            <div class="author_box animated_element">
+                                <div class="author">
+                                    <a title="@Model.AuthorName" href="@Url.Action("Author","Home",new{ID = Model.AuthorID})" class="thumb">
+                                        <img alt="@Model.AuthorName" src="@Url.Content(Model.AuthorImage)" style="height: 100px; width: 100px;">
+                                    </a>
+                                    <div class="details">
+                                        <h5><a title="@Model.AuthorName" href="@Url.Action("Author","Home",new{ID = Model.AuthorID})">@Model.AuthorName</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row page_margin_top">
+                    <div class="share_box clearfix" style="float: right">
+
+                        <ul class="social_icons clearfix">
+                            <li>
+                                <a target="_blank" title="" href="http://facebook.com/#" class="social_icon facebook">
+                                    &nbsp;
+                                </a>
+                            </li>
+                            <li>
+                                <a target="_blank" title="" href="https://twitter.com/#" class="social_icon twitter">
+                                    &nbsp;
+                                </a>
+                            </li>
+                            <li>
+                                <a title="" href="mailto:contact@info.com" class="social_icon mail">
+                                    &nbsp;
+                                </a>
+                            </li>
+                            <li>
+                                <a title="" href="#" class="social_icon skype">
+                                    &nbsp;
+                                </a>
+                            </li>
+                            <li>
+                                <a title="" href="#" class="social_icon instagram">
+                                    &nbsp;
+                                </a>
+                            </li>
+                            <li>
+                                <a title="" href="#" class="social_icon pinterest">
+                                    &nbsp;
+                                </a>
+                            </li>
+                        </ul>
+                        <label>اشتراک گذاشتن:</label>
+                    </div>
+                </div>
+                <div class="row page_margin_top">
+                    <ul class="taxonomies tags left clearfix">
+
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <li>
+                                <a href="@Url.Action("Tag","Home",new{ID = tag.ID})" title="@tag.Name">@tag.Name</a>
+                            </li>
+                        }
+
+
+                    </ul>
+                    <ul class="taxonomies categories right clearfix">
+                        <li>
+                            <a href="@Url.Action("Category","Home",new{ID = Model.CategoryID})" title="@Model.CategoryName">@Model.CategoryName</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row page_margin_top_section">
+                    <h4 class="box_header">ارائه نظر</h4>
+                    <p class="padding_top_30">موارد الزامی را حتما پر کنید.  *</p>
+                    <form class="comment_form margin_top_15" id="comment_form" method="post" action="@Url.Action("Post", "Home")">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <input type="hidden" name="CommentID" value="@Model.CommentID" />
+                        <input type="hidden" name="CommentReplyID" value="@Model.CommentReplyID" />
+                        <input type="hidden" name="ID" value="@Model.ID" />
+
+                        <fieldset class="column column_1_3">
+                            <input class="text_input" name="CommentName" type="text" value="@Model.CommentName" placeholder="نام شما *" required autocomplete="false">
+                        </fieldset>
+                        <fieldset class="column column_1_3">
+                            <input class="text_input" name="CommentEmail" type="text" value="@Model.CommentEmail" placeholder="ایمیل شما *" required autocomplete="false">
+                        </fieldset>
+                        <fieldset class="column column_1_3">
+                            <input class="text_input" name="CommentWebsite" type="text" value="@Model.CommentWebsite" placeholder="وب سایت" autocomplete="false">
+                        </fieldset>
+                        <fieldset>
+                            <textarea name="CommentContent" placeholder="نظر *" required>@Model.CommentContent</textarea>
+                        </fieldset>
+                        <fieldset>
+                            <input type="submit" value="ارسال نظر" class="more active">
+                            <a href="#cancel" id="cancel_comment" title="رد کردن بازخورد">رد کردن بازخورد</a>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="row page_margin_top_section">
+                    <h4 class="box_header">@Model.CommentCount نظر</h4>
+                    <ul id="comments_list">
+
+                        @for (int i = 0; i < Model.Comments.Count(); i++)
+                        {
+                            var item = Model.Comments[i];
+
+                            <li class="comment clearfix" id="comment-@i">
+                                <div class="comment_author_avatar">
+                                    &nbsp;
+                                </div>
+                                <div class="comment_details">
+                                    <div class="posted_by clearfix">
+                                        <h5><a class="author" href="#" title="@item.PersonName">@item.PersonName</a></h5>
+                                        <abbr title="@item.CreateDate.Value.ToPeString("dddd, dd,MMMM,yyyy")" class="timeago">@item.CreateDate.Value.ToPeString("dddd, dd,MMMM,yyyy")</abbr>
+                                    </div>
+                                    <p>
+                                        @item.Desciption
+                                    </p>
+                                    @*<a class="read_more" href="#comment_form" title="Reply">
+                                            <span class="arrow"></span><span>REPLY</span>
+                                        </a>*@
+                                </div>
+                            </li>
+                        }
+
+                        @*<li class="comment clearfix" id="comment-1">
+                                <div class="comment_author_avatar">
+                                    &nbsp;
+                                </div>
+                                <div class="comment_details">
+                                    <div class="posted_by clearfix">
+                                        <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
+                                        <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                    </div>
+                                    <p>
+                                        Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                    </p>
+                                    <a class="read_more" href="#comment_form" title="Reply">
+                                        <span class="arrow"></span><span>REPLY</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="comment clearfix" id="comment-2">
+                                <div class="comment_author_avatar">
+                                    &nbsp;
+                                </div>
+                                <div class="comment_details">
+                                    <div class="posted_by clearfix">
+                                        <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
+                                        <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                    </div>
+                                    <p>
+                                        Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                    </p>
+                                    <a class="read_more" href="#comment_form" title="Reply">
+                                        <span class="arrow"></span><span>REPLY</span>
+                                    </a>
+                                </div>
+                                <ul class="children">
+                                    <li class="comment clearfix">
+                                        <a href="#comment-2" class="parent_arrow"></a>
+                                        <div class="comment_author_avatar">
+                                            &nbsp;
+                                        </div>
+                                        <div class="comment_details">
+                                            <div class="posted_by clearfix">
+                                                <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
+                                                <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                            </div>
+                                            <p>
+                                                Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                            </p>
+                                            <a class="read_more" href="#comment_form" title="Reply">
+                                                <span class="arrow"></span><span>REPLY</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="comment clearfix">
+                                        <a href="#comment-2" class="parent_arrow"></a>
+                                        <div class="comment_author_avatar">
+                                            &nbsp;
+                                        </div>
+                                        <div class="comment_details">
+                                            <div class="posted_by clearfix">
+                                                <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
+                                                <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                            </div>
+                                            <p>
+                                                Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                            </p>
+                                            <a class="read_more" href="#comment_form" title="Reply">
+                                                <span class="arrow"></span><span>REPLY</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

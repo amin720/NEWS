@@ -1519,7 +1519,7 @@ span.odometer.number
 {
 	color: #7C7C7C;
 	border: 1px solid #E9E9E9;
-	border-left: none;
+	border-right: none;
 	padding: 13px 14px 12px 13px;
 }
 .menu_container .mega_menu  li.post

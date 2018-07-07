@@ -1,0 +1,234 @@
+﻿@using NEWS.Web.Services
+@model NEWS.Web.ViewModels.MainPageViewModel
+@{
+    ViewBag.Title = Model.CategoryName;
+    Layout = "~/Views/Shared/_LayoutMainPage.cshtml";
+}
+
+
+@section TrendNEWS
+{
+
+    @foreach (var item in Model.TrendNEWS)
+    {
+        <li>
+            <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+        </li>
+    }
+
+}
+@section LastNEWS
+{
+    @for (int i = 0; i < 4; i++)
+    {
+        var item = Model.TrendNEWS[0 + i];
+
+        <li class="post">
+            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                @if (item.IsGallery == true)
+                {
+                    <span class="icon gallery"></span>
+                }
+                <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+            </a>
+            <div class="post_content">
+                <h5>
+                    <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                </h5>
+                <ul class="post_details simple">
+                    <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                    <li class="date">
+                        @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+
+    }
+}
+@section GalleryNEWS{
+    @for (int i = 0; i < 3; i++)
+    {
+        var item = Model.TrendNEWS[0 + i];
+
+
+        <li class="post">
+            <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                @if (item.IsGallery == true)
+                {
+                    <span class="icon gallery"></span>
+                }
+                <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+            </a>
+            <h2 class="with_number">
+                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                <a class="comments_number" href="#" title="نظر @item.CommentCount">@item.CommentCount<span class="arrow_comments"></span></a>
+            </h2>
+            <ul class="post_details simple">
+                <li class="date">
+                    @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                </li>
+                <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+
+            </ul>
+        </li>
+
+    }
+}
+@section CategoryNEWS
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li>
+            <h4><a href="@Url.Action("Category", "Home", new {ID = item.ID})" title="@item.Name">@item.Name</a></h4>
+        </li>
+    }
+}
+
+<div class="page">
+    <div class="page_header clearfix page_margin_top">
+        <div class="page_header_left">
+            <h1 class="page_title">برچسپ @Model.CategoryName</h1>
+        </div>
+        <div class="page_header_right">
+            <ul class="bread_crumb">
+                <li>
+                    <a title="صفحه اصلی" href="@Url.Action("Index","Home")">
+                        صفحه اصلی
+                    </a>
+                </li>
+                <li class="separator icon_small_arrow right_gray">
+                    &nbsp;
+                </li>
+                <li>
+                    برچسپ @Model.CategoryName
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="page_layout clearfix">
+        <div class="divider_block clearfix">
+            <hr class="divider first">
+            <hr class="divider subheader_arrow">
+            <hr class="divider last">
+        </div>
+        <div class="row">
+
+            <div class="column column_1_3 page_margin_top">
+
+                <h4 class="box_header page_margin_top_section">آخرین اخبار</h4>
+                <div class="vertical_carousel_container clearfix">
+                    <ul class="blog small vertical_carousel autoplay-1 scroll-1 navigation-1 easing-easeInOutQuint duration-750">
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            var item = Model.TrendNEWS[0 + i];
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 100px; height: 100px;">
+                                </a>
+                                <div class="post_content">
+                                    <h5>
+                                        <a href="@Url.Action("Post","Home",new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                    </h5>
+                                    <ul class="post_details simple">
+                                        <li class="category"><a href="@Url.Action("Category","Home",new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                        }
+                    </ul>
+                </div>
+                <h4 class="box_header page_margin_top_section">بهترین نویسندگان</h4>
+                <ul class="authors rating clearfix">
+                    @foreach (var author in Model.BestAuthors)
+                    {
+                        <li class="author">
+                            <a class="thumb" href="@Url.Action("Author","Home",new{ID = author.ID})" title="@author.FullName">
+                                <img src='@Url.Content(author.Avatar)' alt='@author.FullName' style="height: 100px; width: 100px;">
+                                <span class="number animated_element" data-value="@author.PostCount"></span>
+                            </a>
+                            <div class="details">
+                                <h5><a href="@Url.Action("Author","Home",new{ID = author.ID})" title="@author.FullName">@author.FullName</a></h5>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+
+            <div class="column column_2_3">
+                <div class="row">
+                    <ul class="blog big">
+
+                        @for (int i = 0; i < Model.LastNEWS.Count(); i++)
+                        {
+                            var item = Model.LastNEWS[0 + i];
+
+
+                            <li class="post">
+                                <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">
+                                    @if (item.IsGallery == true)
+                                    {
+                                        <span class="icon gallery"></span>
+                                    }
+                                    <img src='@Url.Content(item.ImageUrl)' alt='@item.Title' style="width: 330px; height: 242px;">
+                                </a>
+                                <div class="post_content">
+                                    <h2 class="with_number">
+                                        <a href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="@item.Title">@item.Title</a>
+                                        <a class="comments_number" href="#" title="نظر @item.CommentCount">@item.CommentCount<span class="arrow_comments"></span></a>
+                                    </h2>
+                                    <ul class="post_details">
+                                        <li class="category"><a href="@Url.Action("Category", "Home", new {ID = item.CategoryID})" title="@item.CategoryName">@item.CategoryName</a></li>
+                                        <li class="date">
+                                            @item.CreatePost.Value.ToPeString("dddd, dd,MMMM,yyyy")
+                                        </li>
+                                    </ul>
+                                    <p>@Html.Raw(item.ShortDescription)</p>
+                                    <a class="read_more" href="@Url.Action("Post", "Home", new {ID = item.PostID})" title="ادامه مطلب"><span class="arrow"></span><span>ادامه مطلب</span></a>
+                                </div>
+                            </li>
+
+                        }
+
+                    </ul>
+                </div>
+                @*<ul class="pagination clearfix page_margin_top_section">
+                        <li class="left">
+                            <a href="#" title="">&nbsp;</a>
+                        </li>
+                        <li class="selected">
+                            <a href="#" title="">
+                                1
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                2
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" title="">
+                                3
+                            </a>
+                        </li>
+                        <li class="right">
+                            <a href="#" title="">&nbsp;</a>
+                        </li>
+                    </ul>*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,6 +17,6 @@ namespace NEWS.Core.Interfaces
 		void Update(Comment Instance);
 		void Delete(long ID);
 		IList<Comment> GetPage(int pageNumber, int pageSize);
-		IEnumerable<Comment> GetCommentsByPost(long postID);
+		IList<Comment> GetCommentsByPost(long postID);
 	}
 }

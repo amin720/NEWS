@@ -1212,13 +1212,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NEWSAuthor.cs" />
     <Compile Include="Models\NEWSPost.cs" />
+    <Compile Include="Models\NEWSTags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\MenuHelper.cs" />
     <Compile Include="Services\PersianDateExtensionMethods.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\PostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -1274,6 +1277,11 @@
     <None Include="packages.config" />
     <Content Include="Views\Shared\_LayoutMainPage.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Post.cshtml" />
+    <Content Include="Views\Home\PostWithOutGallery.cshtml" />
+    <Content Include="Views\Home\Category.cshtml" />
+    <Content Include="Views\Home\Author.cshtml" />
+    <Content Include="Views\Home\Tag.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -131,6 +131,14 @@ namespace NEWS.Infrastructure.Repository
 				return db.Database.SqlQuery<string>("SELECT t.Name\r\nFROM dbo.PostTag AS pt\r\nINNER JOIN dbo.Tag AS t ON t.ID = pt.TagID\r\nWHERE PostID = " + postID).ToList();
 			}
 		}
+		public IList<Post> GetPostsByTag(long tagID)
+		{
+			using (var db = new NEWSEntities())
+			{
+				var model = db.Posts.SqlQuery("SELECT dbo.Post.*\r\nFROM dbo.PostTag\r\nINNER JOIN dbo.Post ON Post.ID = PostTag.PostID\r\nWHERE TagID = " + tagID).ToList();
+				return model;
+			}
+		}
 		public IList<Post> GetPage(int pageNumber, int pageSize)
 		{
 			using (var db = new NEWSEntities())
@@ -188,6 +196,24 @@ namespace NEWS.Infrastructure.Repository
 				var post = db.Posts.SingleOrDefault(pg => pg.PostGalleryID== postgalleryID);
 
 				return post;
+			}
+		}
+		public IEnumerable<Post> GetPostsHasGallery()
+		{
+			using (var db = new NEWSEntities())
+			{
+				return db.Posts
+					.Where(p => p.IsGallery == true)
+					.OrderByDescending(post => post.CreateDate)
+					.ToArray();
+			}
+		}
+		public IEnumerable<Post> GetRelatedPost(long postID,long categoryID)
+		{
+			using (var db = new NEWSEntities())
+			{
+				return db.Database.SqlQuery<Post>("SELECT *\r\nFROM dbo.Post\r\nWHERE CategoryID = " + categoryID 
+				                                + "\r\n\r\nEXCEPT\r\n\r\n SELECT *\r\n FROM dbo.Post\r\n WHERE ID = " + postID).ToList();
 			}
 		}
 		public void SetTagToPost(long postID,long tagID)

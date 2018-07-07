@@ -45,7 +45,9 @@
           <Property Name="Website" Type="nvarchar" MaxLength="90" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="Desciption" Type="nvarchar(max)" />
+          <Property Name="CreateDate" Type="datetime" />
           <Property Name="PostID" Type="bigint" />
+          <Property Name="ReplyID" Type="int" />
         </EntityType>
         <EntityType Name="Gallery">
           <Key>
@@ -145,6 +147,18 @@
             </Principal>
             <Dependent Role="Category1">
               <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Comment">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="Comment1" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="ReplyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -299,6 +313,10 @@
             <End Role="Category" EntitySet="Category" />
             <End Role="Category1" EntitySet="Category" />
           </AssociationSet>
+          <AssociationSet Name="FK_Comment_Comment" Association="Self.FK_Comment_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Comment1" EntitySet="Comment" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Post" Association="Self.FK_Comment_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Comment" EntitySet="Comment" />
@@ -376,6 +394,10 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Post" EntitySet="Posts" />
           </AssociationSet>
+          <AssociationSet Name="FK_Comment_Comment" Association="NEWSModel.FK_Comment_Comment">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Comment1" EntitySet="Comments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Comment_Post" Association="NEWSModel.FK_Comment_Post">
             <End Role="Post" EntitySet="Posts" />
             <End Role="Comment" EntitySet="Comments" />
@@ -450,7 +472,11 @@
           <Property Name="Website" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Desciption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="PostID" Type="Int64" />
+          <Property Name="ReplyID" Type="Int32" />
+          <NavigationProperty Name="Comment1" Relationship="NEWSModel.FK_Comment_Comment" FromRole="Comment" ToRole="Comment1" />
+          <NavigationProperty Name="Comment2" Relationship="NEWSModel.FK_Comment_Comment" FromRole="Comment1" ToRole="Comment" />
           <NavigationProperty Name="Post" Relationship="NEWSModel.FK_Comment_Post" FromRole="Comment" ToRole="Post" />
         </EntityType>
         <EntityType Name="Gallery">
@@ -598,6 +624,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Comment_Comment">
+          <End Type="NEWSModel.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="NEWSModel.Comment" Role="Comment1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment1">
+              <PropertyRef Name="ReplyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Comment_Post">
           <End Type="NEWSModel.Post" Role="Post" Multiplicity="0..1" />
           <End Type="NEWSModel.Comment" Role="Comment" Multiplicity="*" />
@@ -716,7 +754,9 @@
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="NEWSModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="ReplyID" ColumnName="ReplyID" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="Desciption" ColumnName="Desciption" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Website" ColumnName="Website" />

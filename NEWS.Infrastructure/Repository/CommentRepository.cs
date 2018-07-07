@@ -122,7 +122,7 @@ namespace NEWS.Infrastructure.Repository
 								.ToArray();
 			}
 		}
-		public IEnumerable<Comment> GetCommentsByPost(long postID)
+		public IList<Comment> GetCommentsByPost(long postID)
 		{
 			using (var db = new NEWSEntities())
 			{

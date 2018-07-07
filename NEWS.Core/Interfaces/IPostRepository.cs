@@ -23,6 +23,9 @@ namespace NEWS.Core.Interfaces
 		IList<Post> GetPageByCategory(int pageNumber, int pageSize, long categoryID);
 		IEnumerable<Post> GetPublishedPosts();
 		Post GetPostByPostGallery(long postgalleryID);
+		IList<Post> GetPostsByTag(long tagID);
+		IEnumerable<Post> GetPostsHasGallery();
+		IEnumerable<Post> GetRelatedPost(long postID, long categoryID);
 		void SetTagToPost(long postID, long tagID);
 	}
 }
