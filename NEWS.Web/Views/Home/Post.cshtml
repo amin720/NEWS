@@ -83,7 +83,28 @@
         </li>
     }
 }
-
+@section MainMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})" title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
+@section MobileMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})" title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
 
 <div class="page">
     <div class="page_layout page_margin_top clearfix">
@@ -332,7 +353,7 @@
                             <input class="text_input" name="CommentEmail" type="text" value="@Model.CommentEmail" placeholder="ایمیل شما *" required autocomplete="false">
                         </fieldset>
                         <fieldset class="column column_1_3">
-                            <input class="text_input" name="CommentWebsite" type="text" value="@Model.CommentWebsite" placeholder="وب سایت"  autocomplete="false">
+                            <input class="text_input" name="CommentWebsite" type="text" value="@Model.CommentWebsite" placeholder="وب سایت" autocomplete="false">
                         </fieldset>
                         <fieldset>
                             <textarea name="CommentContent" placeholder="نظر *" required>@Model.CommentContent</textarea>
@@ -346,8 +367,8 @@
                 <div class="row page_margin_top_section">
                     <h4 class="box_header">@Model.CommentCount نظر</h4>
                     <ul id="comments_list">
-                        
-                        @for(int i = 0; i < Model.Comments.Count();i++)
+
+                        @for (int i = 0; i < Model.Comments.Count(); i++)
                         {
                             var item = Model.Comments[i];
 
@@ -364,84 +385,84 @@
                                         @item.Desciption
                                     </p>
                                     @*<a class="read_more" href="#comment_form" title="Reply">
-                                        <span class="arrow"></span><span>REPLY</span>
-                                    </a>*@
+                                            <span class="arrow"></span><span>REPLY</span>
+                                        </a>*@
                                 </div>
                             </li>
                         }
 
                         @*<li class="comment clearfix" id="comment-1">
-                            <div class="comment_author_avatar">
-                                &nbsp;
-                            </div>
-                            <div class="comment_details">
-                                <div class="posted_by clearfix">
-                                    <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
-                                    <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                <div class="comment_author_avatar">
+                                    &nbsp;
                                 </div>
-                                <p>
-                                    Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
-                                </p>
-                                <a class="read_more" href="#comment_form" title="Reply">
-                                    <span class="arrow"></span><span>REPLY</span>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="comment clearfix" id="comment-2">
-                            <div class="comment_author_avatar">
-                                &nbsp;
-                            </div>
-                            <div class="comment_details">
-                                <div class="posted_by clearfix">
-                                    <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
-                                    <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                <div class="comment_details">
+                                    <div class="posted_by clearfix">
+                                        <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
+                                        <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                    </div>
+                                    <p>
+                                        Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                    </p>
+                                    <a class="read_more" href="#comment_form" title="Reply">
+                                        <span class="arrow"></span><span>REPLY</span>
+                                    </a>
                                 </div>
-                                <p>
-                                    Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
-                                </p>
-                                <a class="read_more" href="#comment_form" title="Reply">
-                                    <span class="arrow"></span><span>REPLY</span>
-                                </a>
-                            </div>
-                            <ul class="children">
-                                <li class="comment clearfix">
-                                    <a href="#comment-2" class="parent_arrow"></a>
-                                    <div class="comment_author_avatar">
-                                        &nbsp;
+                            </li>
+                            <li class="comment clearfix" id="comment-2">
+                                <div class="comment_author_avatar">
+                                    &nbsp;
+                                </div>
+                                <div class="comment_details">
+                                    <div class="posted_by clearfix">
+                                        <h5><a class="author" href="#" title="Kevin Nomad">Kevin Nomad</a></h5>
+                                        <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
                                     </div>
-                                    <div class="comment_details">
-                                        <div class="posted_by clearfix">
-                                            <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
-                                            <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                    <p>
+                                        Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                    </p>
+                                    <a class="read_more" href="#comment_form" title="Reply">
+                                        <span class="arrow"></span><span>REPLY</span>
+                                    </a>
+                                </div>
+                                <ul class="children">
+                                    <li class="comment clearfix">
+                                        <a href="#comment-2" class="parent_arrow"></a>
+                                        <div class="comment_author_avatar">
+                                            &nbsp;
                                         </div>
-                                        <p>
-                                            Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
-                                        </p>
-                                        <a class="read_more" href="#comment_form" title="Reply">
-                                            <span class="arrow"></span><span>REPLY</span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li class="comment clearfix">
-                                    <a href="#comment-2" class="parent_arrow"></a>
-                                    <div class="comment_author_avatar">
-                                        &nbsp;
-                                    </div>
-                                    <div class="comment_details">
-                                        <div class="posted_by clearfix">
-                                            <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
-                                            <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                        <div class="comment_details">
+                                            <div class="posted_by clearfix">
+                                                <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
+                                                <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                            </div>
+                                            <p>
+                                                Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                            </p>
+                                            <a class="read_more" href="#comment_form" title="Reply">
+                                                <span class="arrow"></span><span>REPLY</span>
+                                            </a>
                                         </div>
-                                        <p>
-                                            Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
-                                        </p>
-                                        <a class="read_more" href="#comment_form" title="Reply">
-                                            <span class="arrow"></span><span>REPLY</span>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>*@
+                                    </li>
+                                    <li class="comment clearfix">
+                                        <a href="#comment-2" class="parent_arrow"></a>
+                                        <div class="comment_author_avatar">
+                                            &nbsp;
+                                        </div>
+                                        <div class="comment_details">
+                                            <div class="posted_by clearfix">
+                                                <h5><a class="author" href="#" title="Keith Douglas">Keith Douglas</a><a href="#comment-2" class="in_reply">@@Kevin Nomad</a></h5>
+                                                <abbr title="22 July 2014" class="timeago">22 July 2014</abbr>
+                                            </div>
+                                            <p>
+                                                Donec ipsum diam, pretium mollis dapibus risus. Nullam tindun pulvinar at interdum eget, suscipit eget felis. Pellentesque est faucibus tincidunt risus id interdum primis orci cubilla gravida id interdum eget.
+                                            </p>
+                                            <a class="read_more" href="#comment_form" title="Reply">
+                                                <span class="arrow"></span><span>REPLY</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
 
                 </div>

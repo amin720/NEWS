@@ -63,8 +63,8 @@
             <div class="header_top_bar_container style_5 border clearfix"> -->
         <div class="header_top_bar_container clearfix">
             <div class="header_top_bar">
-                <form class="search" action="search.html" method="get">
-                    <input type="text" name="s" placeholder="Search..." value="جستجو..." class="search_input hint">
+                <form class="search" action="@Url.Action("Search","Home")" method="get">
+                    <input type="text" name="search" placeholder="جستجو..." value="جستجو..." class="search_input hint">
                     <input type="submit" class="search_submit" value="">
                 </form>
                 <!--<ul class="social_icons dark clearfix">
@@ -114,7 +114,7 @@
         <div class="header_container">
             <div class="header clearfix">
                 <div class="logo">
-                    <h1><a href="home.html" title="TJ NEWS">TJ NEWS</a></h1>
+                    <h1><a href="@Url.Action("Index","Home")" title="TJ NEWS">TJ NEWS</a></h1>
                     <h4>اخبار و مجله تی جی</h4>
                 </div>
                 <div class="placeholder">728 x 90</div>
@@ -133,11 +133,7 @@
                             خانه
                         </a>
                     </li>
-                    <li class="@Html.IsSelected(actions: "Post", controllers: "Home", cssClass:"selected")">
-                        <a href="@Url.Action("Post","Home")" >
-                            پست
-                        </a>
-                    </li>
+                    @RenderSection("MainMenu",false)
                 </ul>
             </nav>
             <div class="mobile_menu_container">
@@ -154,6 +150,7 @@
                                 خانه
                             </a>
                         </li>
+                        @RenderSection("MobileMenu", false)
                     </ul>
                 </nav>
             </div>

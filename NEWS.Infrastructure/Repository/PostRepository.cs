@@ -172,7 +172,7 @@ namespace NEWS.Infrastructure.Repository
 			using (var db = new NEWSEntities())
 			{
 				return db.Posts
-							.Include("Users")
+							.Include(u => u.User)
 							.Where(p => p.AuthorID == authorId)
 							.OrderByDescending(post => post.CreateDate)
 							.ToArray();

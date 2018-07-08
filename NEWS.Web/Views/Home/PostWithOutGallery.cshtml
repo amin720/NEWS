@@ -83,7 +83,28 @@
         </li>
     }
 }
-
+@section MainMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})" title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
+@section MobileMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})" title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
 
 <div class="page">
     <div class="page_layout page_margin_top clearfix">
@@ -294,24 +315,24 @@
 
                                             @foreach (var gallery in Model.GalleryRelatedPost)
                                             {
-                                            <li>
-                                                <div class="column column_1_3" style="margin-right: 30px; margin-left: unset;">
-                                                    <h3 class="page_margin_top">
-                                                        @gallery.Title
-                                                    </h3>
-                                                    <p>
-                                                        @gallery.Caption
-                                                    </p>
+                                                <li>
+                                                    <div class="column column_1_3" style="margin-right: 30px; margin-left: unset;">
+                                                        <h3 class="page_margin_top">
+                                                            @gallery.Title
+                                                        </h3>
+                                                        <p>
+                                                            @gallery.Caption
+                                                        </p>
 
-                                                    <div class="clearfix">
-                                                        <a class="read_more close_popup page_margin_top_section" href="#" title="بیشتر بخوانید"><span class="arrow"></span><span>بازگشت به خبر</span></a>
+                                                        <div class="clearfix">
+                                                            <a class="read_more close_popup page_margin_top_section" href="#" title="بیشتر بخوانید"><span class="arrow"></span><span>بازگشت به خبر</span></a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="column column_2_3"  style="margin-right: 30px; margin-left: unset;">
-                                                    <img src='@Url.Content(gallery.FileName)' alt='@gallery.Title' width="690" height="450">
-                                                </div>
+                                                    <div class="column column_2_3" style="margin-right: 30px; margin-left: unset;">
+                                                        <img src='@Url.Content(gallery.FileName)' alt='@gallery.Title' width="690" height="450">
+                                                    </div>
 
-                                            </li>
+                                                </li>
                                             }
 
                                         </ul>

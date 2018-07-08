@@ -85,6 +85,29 @@
         </li>
     }
 }
+@section MainMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})"  title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
+@section MobileMenu
+{
+    @foreach (var item in Model.CategoryNEWS)
+    {
+        <li class="@Html.IsSelected(actions: "Category", controllers: "Home", cssClass:"selected")">
+            <a href="@Url.Action("Category","Home", new {ID = item.ID})"  title="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+}
+
 <!-- slider -->
 <ul class="slider">
 
@@ -252,7 +275,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row page_margin_top_section">
                     <div class="column column_1_2">
                         <h4 class="box_header">سیاست</h4>

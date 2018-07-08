@@ -703,6 +703,106 @@ namespace NEWS.Web.Controllers
 			return View(model);
 		}
 
+
+		// GET: Search
+		[HttpGet]
+		[Route("Search")]
+		[AllowAnonymous]
+		public ActionResult Search(string search)
+		{
+
+			var skip = (1 - 1) * 5;
+
+			var model = new MainPageViewModel();
+			var otherPosts = _postRepository.GetAll();
+			var posts = SearchPost.Search(search);
+			var societyPosts = posts.Where(p => p.CategoryID == 6);
+			var politicPosts = posts.Where(p => p.CategoryID == 1);
+			var sportNEWS = posts.Where(p => p.CategoryID == 5);
+			var galleryNEWS = _postRepository.GetPostsHasGallery();
+			var bestAuthors = new NEWSAuthor().Authors();
+			var categories = _categoryRepository.GetAll();
+
+			societyPosts.Shuffle();
+			politicPosts.Shuffle();
+			sportNEWS.Shuffle();
+			posts.Shuffle();
+			otherPosts.Shuffle();
+
+			var newsList = (from post in posts
+							where post.CategoryID != null
+							select new NEWSPost
+							{
+								PostID = post.ID,
+								Title = post.Title,
+								ShortDescription = post.ShortDescription,
+								ImageUrl = post.MainImageUrl,
+								CreatePost = post.CreateDate,
+								IsGallery = post.IsGallery,
+								CommentCount = _commentRepository.GetCommentsByPost((long)post.ID).Count(),
+								CategoryID = post.CategoryID,
+								CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name
+							}).ToList();
+
+			var othernewsList = (from post in otherPosts
+								 where post.CategoryID != null
+								 select new NEWSPost
+								 {
+									 PostID = post.ID,
+									 Title = post.Title,
+									 ShortDescription = post.ShortDescription,
+									 ImageUrl = post.MainImageUrl,
+									 CreatePost = post.CreateDate,
+									 IsGallery = post.IsGallery,
+									 CommentCount = _commentRepository.GetCommentsByPost((long)post.ID).Count(),
+									 CategoryID = post.CategoryID,
+									 CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name
+								 }).ToList();
+
+			model.TrendNEWS = othernewsList
+				.Skip(skip)
+				.Take(5)
+				.ToArray();
+
+			model.RecomendedNEWS = othernewsList
+				.Skip(5)
+				.Take(5)
+				.ToArray();
+
+			model.LastNEWS = newsList
+				.OrderByDescending(p => p.CreatePost)
+				.Skip(0)
+				.Take(20)
+				.ToArray();
+
+
+			model.GalleryNEWS = (from post in galleryNEWS
+								 where post.CategoryID != null
+								 select new NEWSPost
+								 {
+									 PostID = post.ID,
+									 Title = post.Title,
+									 ShortDescription = post.ShortDescription,
+									 ImageUrl = post.MainImageUrl,
+									 CreatePost = post.CreateDate,
+									 IsGallery = post.IsGallery,
+									 CommentCount = _commentRepository.GetCommentsByPost((long)post.ID).Count(),
+									 CategoryID = post.CategoryID,
+									 CategoryName = _categoryRepository.GetByID((long)post.CategoryID).Name
+								 })
+									.Skip(skip)
+									.Take(5)
+									.ToList();
+
+			model.BestAuthors = bestAuthors;
+			model.CategoryNEWS = categories;
+
+
+			model.CategoryName = search;
+
+			return View(model);
+		}
+
 		#region Method
 
 		private bool _isDisposed;

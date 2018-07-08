@@ -1219,6 +1219,7 @@
     <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\MenuHelper.cs" />
     <Compile Include="Services\PersianDateExtensionMethods.cs" />
+    <Compile Include="Services\SearchPost.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\PostViewModel.cs" />
@@ -1282,6 +1283,7 @@
     <Content Include="Views\Home\Category.cshtml" />
     <Content Include="Views\Home\Author.cshtml" />
     <Content Include="Views\Home\Tag.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
